@@ -10,9 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RoleReq {
-    private String code;
+public class LoginReq {
+    @NotBlank(message = "username must be not empty")
+    private String username;
 
-    @NotBlank(message = "Tên role không được để trống")
-    private String roleName;
+    @NotBlank(message = "password must be not empty")
+    private String password;
 }

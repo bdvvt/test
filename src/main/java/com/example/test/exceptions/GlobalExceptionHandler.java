@@ -2,6 +2,7 @@ package com.example.test.exceptions;
 
 import com.example.test.models.dto.wrapper.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -27,7 +29,7 @@ public class GlobalExceptionHandler {
                     );
                 }
         );
-
+        log.error("Validation exception: {}", e.getMessage());
 
         return ResponseEntity.badRequest().body(
                 ErrorResponse.builder()
@@ -42,6 +44,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> handleNotFoundException(NotFoundException e, HttpServletRequest request) {
+        log.error("không tìm thấy tài nguyên: {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 ErrorResponse.builder()
                         .status(404)
@@ -54,7 +57,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleAllExceptions(Exception e, HttpServletRequest request) {
-
+        log.error("Lỗi hệ thống xảy ra: {}", e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                 ErrorResponse.builder()
                         .status(500)
@@ -70,6 +73,7 @@ public class GlobalExceptionHandler {
             HttpServletRequest request,
             HttpServerErrorException.InternalServerError e
     ) {
+        log.error("Lỗi máy chủ nội bộ: {}", e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                 ErrorResponse.builder()
                         .status(500)
@@ -85,6 +89,7 @@ public class GlobalExceptionHandler {
             HttpServletRequest request,
             DataConflictException e
     ) {
+        log.error("Lỗi xung đột dữ liệu: {}", e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(
                 ErrorResponse.builder()
                         .status(409)
@@ -95,16 +100,31 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<?> handleAuthException(AuthException ex,HttpServletRequest request) {
+        log.error("Lỗi xác thực: {}", ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                ErrorResponse.builder()
+                        .status(400)
+                        .error("Authentication Error")
+                        .message(ex.getMessage())
+                        .path(request.getRequestURI())
+                        .build()
+        );
+    }
+
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<?> handleDataIntegrityViolationException(
             DataIntegrityViolationException e,
             HttpServletRequest request
     ) {
+        log.error("Lỗi vi phạm toàn vẹn dữ liệu: {}", e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(
                 ErrorResponse.builder()
                         .status(409)
                         .error("Data Conflict")
-                        .message("Email already have")
+                        .message(e.getMessage())
                         .path(request.getRequestURI())
                         .build()
         );

@@ -1,6 +1,5 @@
-package com.example.test.models.dto.req;
+package com.example.test.models.dto.res;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RoleReq {
+public class RoleRes {
+    private Long id;
     private String code;
-
-    @NotBlank(message = "Tên role không được để trống")
     private String roleName;
 }

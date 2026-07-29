@@ -1,5 +1,6 @@
 package com.example.test.models.entities;
 
+import com.example.test.models.constants.RoleName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,10 +19,14 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "code", unique = true)
+    private String code;
 
-    @OneToMany(mappedBy = "role")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role_name")
+    private RoleName roleName;
+
+    @ManyToMany(mappedBy = "roles")
     @JsonIgnore
     private List<User> users;
 }
