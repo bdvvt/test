@@ -6,13 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class RoleReq {
-    private String code;
-
     @NotBlank(message = "Tên role không được để trống")
-    private String roleName;
+    private String roleName ;
+
+    private Set<Long> permissions;
 }

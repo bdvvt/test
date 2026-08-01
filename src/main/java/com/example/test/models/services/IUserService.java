@@ -4,6 +4,7 @@ import com.example.test.models.dto.req.ProfileUpdateReq;
 import com.example.test.models.dto.req.RegisterReq;
 import com.example.test.models.dto.req.UserReq;
 import com.example.test.models.dto.res.UserRes;
+import com.example.test.models.entities.User;
 
 import java.util.List;
 

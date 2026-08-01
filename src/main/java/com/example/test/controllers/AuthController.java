@@ -1,5 +1,6 @@
 package com.example.test.controllers;
 
+import com.example.test.models.dto.req.BlockReq;
 import com.example.test.models.dto.req.LoginReq;
 import com.example.test.models.dto.req.RegisterReq;
 import com.example.test.models.dto.wrapper.ApiResponse;
@@ -10,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -46,6 +44,17 @@ public class AuthController {
                                 .data(authService.login(req))
                                 .build()
                 );
+    }
+
+    @PutMapping("/{id}/block")
+    public ResponseEntity<?> toggleBlockUser(@Valid @PathVariable Long id, @RequestParam("status") boolean status) {
+        return ResponseEntity.ok(
+                ApiResponse.builder()
+                        .code(200)
+                        .message("Cập nhật trạng thái khóa tài khoản thành công")
+                        .data(authService.toggleBlockUser(id, status))
+                        .build()
+        );
     }
 }
 

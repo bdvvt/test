@@ -54,7 +54,7 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateRole(@PathVariable Long id, @Valid @ModelAttribute  RoleReq req){
+    public ResponseEntity<?> updateRole(@PathVariable Long id, @Valid @ModelAttribute RoleReq req){
         log.info("Updating role with ID: {}", id);
         return ResponseEntity.status(200).body(
                 ApiResponse.builder()

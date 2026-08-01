@@ -3,11 +3,14 @@ package com.example.test.security.principal;
 import com.example.test.models.entities.User;
 import com.example.test.models.repositories.IUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +23,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         CustomUserDetails customUserDetails =  CustomUserDetails.builder()
                 .user(user)
                 .authorities(user.getRoles().stream()
-                        .map(role -> new SimpleGrantedAuthority(role.getRoleName().name()))
+                        .flatMap(role -> {
+                            Stream<GrantedAuthority> permissionAuthorities = role.getPermissions() != null
+                                    ? role.getPermissions().stream().map(p -> new SimpleGrantedAuthority(p.getName()))
+                                    : Stream.empty();
+                            return Stream.concat(
+                                    Stream.of(new SimpleGrantedAuthority(role.getRoleName())),
+                                    permissionAuthorities
+                            );
+                        })
                         .toList())
                 .build();
         return customUserDetails;

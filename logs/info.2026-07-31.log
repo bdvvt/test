@@ -1,0 +1,163 @@
+2026-07-31 21:45:28.381 [Thread-45] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Shutdown initiated...
+2026-07-31 21:45:28.402 [Thread-45] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Shutdown completed.
+2026-07-31 21:45:28.919 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10072 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 21:45:28.920 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 21:45:31.226 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Starting...
+2026-07-31 21:45:31.275 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-14 - Added connection org.postgresql.jdbc.PgConnection@41de9a63
+2026-07-31 21:45:31.275 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Start completed.
+2026-07-31 21:45:31.936 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Shutdown initiated...
+2026-07-31 21:45:31.944 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Shutdown completed.
+2026-07-31 21:45:34.031 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10072 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 21:45:34.032 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 21:45:35.190 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Starting...
+2026-07-31 21:45:35.233 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-15 - Added connection org.postgresql.jdbc.PgConnection@45aa9e50
+2026-07-31 21:45:35.234 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Start completed.
+2026-07-31 21:45:35.840 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 14568 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 21:45:35.843 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 21:45:37.443 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Shutdown initiated...
+2026-07-31 21:45:37.448 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Shutdown completed.
+2026-07-31 21:45:39.258 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-07-31 21:45:39.349 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@458585e0
+2026-07-31 21:45:39.350 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-07-31 21:45:41.336 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-07-31 21:45:41.339 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-07-31 21:47:47.808 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10496 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 21:47:47.810 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 21:47:47.832 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10072 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 21:47:47.833 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 21:47:48.703 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Starting...
+2026-07-31 21:47:48.733 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-16 - Added connection org.postgresql.jdbc.PgConnection@2dcd4f23
+2026-07-31 21:47:48.733 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Start completed.
+2026-07-31 21:47:49.614 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Shutdown initiated...
+2026-07-31 21:47:49.616 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Shutdown completed.
+2026-07-31 21:47:49.638 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-07-31 21:47:49.827 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@27c43fb
+2026-07-31 21:47:49.828 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-07-31 21:47:51.736 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-07-31 21:47:51.739 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-07-31 21:51:07.460 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10072 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 21:51:07.460 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 21:51:07.549 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 26188 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 21:51:07.551 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 21:51:08.329 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Starting...
+2026-07-31 21:51:08.360 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-17 - Added connection org.postgresql.jdbc.PgConnection@2889e2c6
+2026-07-31 21:51:08.360 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Start completed.
+2026-07-31 21:51:09.467 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-07-31 21:51:09.568 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@342e9f6d
+2026-07-31 21:51:09.570 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-07-31 21:51:09.637 [restartedMain] INFO  com.example.test.TestApplication - Started TestApplication in 2.24 seconds (process running for 109442.947)
+2026-07-31 21:51:11.645 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-07-31 21:51:11.647 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-07-31 21:52:18.730 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10892 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 21:52:18.732 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 21:52:20.432 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-07-31 21:52:20.514 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4aca1a68
+2026-07-31 21:52:20.516 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-07-31 21:52:22.586 [restartedMain] INFO  com.example.test.TestApplication - Started TestApplication in 4.257 seconds (process running for 4.812)
+2026-07-31 21:53:42.622 [http-nio-8080-exec-4] INFO  c.e.test.controllers.AuthController - Attempting login for user: nhanvien04
+2026-07-31 21:54:44.361 [http-nio-8080-exec-5] INFO  c.e.t.c.UserOrganizationController - Fetching all users in org: 1
+2026-07-31 21:55:39.548 [Thread-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-07-31 21:55:39.552 [Thread-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-07-31 21:55:39.693 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10892 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 21:55:39.693 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 21:55:40.774 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-07-31 21:55:40.825 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@396474ed
+2026-07-31 21:55:40.825 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-07-31 21:55:41.382 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-07-31 21:55:41.453 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-07-31 21:55:43.083 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10892 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 21:55:43.083 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 21:55:43.820 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2026-07-31 21:55:43.888 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@48a67472
+2026-07-31 21:55:43.889 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2026-07-31 21:55:45.084 [restartedMain] INFO  com.example.test.TestApplication - Started TestApplication in 2.067 seconds (process running for 207.31)
+2026-07-31 21:55:55.609 [http-nio-8080-exec-2] INFO  c.e.t.c.UserOrganizationController - Fetching all users in org: 1
+2026-07-31 22:05:14.814 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2026-07-31 22:05:14.821 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2026-07-31 22:05:14.920 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10892 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 22:05:14.920 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 22:05:15.299 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+2026-07-31 22:05:15.325 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@64b6cd28
+2026-07-31 22:05:15.325 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+2026-07-31 22:05:16.140 [restartedMain] INFO  com.example.test.TestApplication - Started TestApplication in 1.252 seconds (process running for 778.366)
+2026-07-31 22:06:47.738 [Thread-12] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+2026-07-31 22:06:47.740 [Thread-12] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
+2026-07-31 22:06:47.823 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10892 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 22:06:47.823 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 22:06:48.554 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
+2026-07-31 22:06:48.597 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@72d5e325
+2026-07-31 22:06:48.598 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
+2026-07-31 22:06:49.456 [restartedMain] INFO  com.example.test.TestApplication - Started TestApplication in 1.669 seconds (process running for 871.681)
+2026-07-31 22:06:51.143 [http-nio-8080-exec-2] INFO  c.e.t.c.UserOrganizationController - Fetching all users in org: 1
+2026-07-31 22:06:51.144 [http-nio-8080-exec-2] INFO  c.e.t.m.s.i.UserOrganizationServiceImpl - Listing all users for organization ID: 1
+2026-07-31 22:09:38.559 [Thread-16] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+2026-07-31 22:09:38.561 [Thread-16] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+2026-07-31 22:09:38.727 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10892 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 22:09:38.727 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 22:09:39.239 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
+2026-07-31 22:09:39.288 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-6 - Added connection org.postgresql.jdbc.PgConnection@52285f58
+2026-07-31 22:09:39.288 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
+2026-07-31 22:09:40.182 [restartedMain] INFO  com.example.test.TestApplication - Started TestApplication in 1.526 seconds (process running for 1042.408)
+2026-07-31 22:09:44.842 [http-nio-8080-exec-6] INFO  c.e.t.c.UserOrganizationController - Fetching user with ID: 14 in org: 1
+2026-07-31 22:09:53.427 [http-nio-8080-exec-7] INFO  c.e.t.c.UserOrganizationController - Fetching user with ID: 13 in org: 1
+2026-07-31 22:10:00.592 [http-nio-8080-exec-10] INFO  c.e.t.c.UserOrganizationController - Fetching user with ID: 15 in org: 1
+2026-07-31 22:10:06.065 [http-nio-8080-exec-1] INFO  c.e.t.c.UserOrganizationController - Fetching user with ID: 16 in org: 1
+2026-07-31 22:11:29.474 [http-nio-8080-exec-4] INFO  c.e.t.c.UserOrganizationController - Fetching user with ID: 17 in org: 1
+2026-07-31 22:11:35.227 [http-nio-8080-exec-5] INFO  c.e.t.c.UserOrganizationController - Fetching user with ID: 18 in org: 1
+2026-07-31 22:11:40.417 [http-nio-8080-exec-7] INFO  c.e.t.c.UserOrganizationController - Fetching user with ID: 17 in org: 1
+2026-07-31 22:14:40.367 [http-nio-8080-exec-9] INFO  c.e.t.c.UserOrganizationController - Fetching user with ID: 17 in org: 1
+2026-07-31 22:15:14.873 [Thread-20] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
+2026-07-31 22:15:14.876 [Thread-20] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
+2026-07-31 22:15:14.983 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10892 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 22:15:14.984 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 22:15:15.962 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Starting...
+2026-07-31 22:15:16.006 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-7 - Added connection org.postgresql.jdbc.PgConnection@6d9fb0c3
+2026-07-31 22:15:16.006 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Start completed.
+2026-07-31 22:15:17.064 [restartedMain] INFO  com.example.test.TestApplication - Started TestApplication in 2.123 seconds (process running for 1379.29)
+2026-07-31 22:17:49.492 [Thread-24] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown initiated...
+2026-07-31 22:17:49.496 [Thread-24] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown completed.
+2026-07-31 22:17:49.674 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10892 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 22:17:49.674 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 22:17:50.184 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Starting...
+2026-07-31 22:17:50.213 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-8 - Added connection org.postgresql.jdbc.PgConnection@66339a1c
+2026-07-31 22:17:50.213 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Start completed.
+2026-07-31 22:17:50.792 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown initiated...
+2026-07-31 22:17:50.834 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown completed.
+2026-07-31 22:18:22.026 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10892 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 22:18:22.029 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 22:18:22.469 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Starting...
+2026-07-31 22:18:22.496 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-9 - Added connection org.postgresql.jdbc.PgConnection@1792b465
+2026-07-31 22:18:22.497 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Start completed.
+2026-07-31 22:18:23.242 [restartedMain] INFO  com.example.test.TestApplication - Started TestApplication in 1.239 seconds (process running for 1565.468)
+2026-07-31 22:18:39.942 [http-nio-8080-exec-4] INFO  c.e.t.c.UserOrganizationController - Setting organizationId with user's organization id: 1
+2026-07-31 22:18:39.975 [http-nio-8080-exec-4] INFO  c.e.t.m.s.i.UserOrganizationServiceImpl - Creating new user entity to database for full name: Nguyen Van p
+2026-07-31 22:21:08.266 [Thread-28] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Shutdown initiated...
+2026-07-31 22:21:08.274 [Thread-28] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-9 - Shutdown completed.
+2026-07-31 22:21:08.409 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10892 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 22:21:08.409 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 22:21:08.876 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Starting...
+2026-07-31 22:21:08.906 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-10 - Added connection org.postgresql.jdbc.PgConnection@7a10dcaa
+2026-07-31 22:21:08.906 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Start completed.
+2026-07-31 22:21:09.651 [restartedMain] INFO  com.example.test.TestApplication - Started TestApplication in 1.297 seconds (process running for 1731.876)
+2026-07-31 22:21:11.085 [Thread-35] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Shutdown initiated...
+2026-07-31 22:21:11.088 [Thread-35] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-10 - Shutdown completed.
+2026-07-31 22:21:11.170 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10892 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 22:21:11.170 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 22:21:11.529 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Starting...
+2026-07-31 22:21:11.567 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-11 - Added connection org.postgresql.jdbc.PgConnection@6173aae2
+2026-07-31 22:21:11.567 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Start completed.
+2026-07-31 22:21:12.198 [restartedMain] INFO  com.example.test.TestApplication - Started TestApplication in 1.049 seconds (process running for 1734.424)
+2026-07-31 22:21:32.124 [Thread-39] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Shutdown initiated...
+2026-07-31 22:21:32.129 [Thread-39] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-11 - Shutdown completed.
+2026-07-31 22:21:32.244 [restartedMain] INFO  com.example.test.TestApplication - Starting TestApplication using Java 21.0.11 with PID 10892 (C:\Users\ADMIN88\jvabackend\test\build\classes\java\main started by ADMIN88 in C:\Users\ADMIN88\jvabackend\test)
+2026-07-31 22:21:32.244 [restartedMain] INFO  com.example.test.TestApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-31 22:21:32.574 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Starting...
+2026-07-31 22:21:32.600 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-12 - Added connection org.postgresql.jdbc.PgConnection@7ccaff6e
+2026-07-31 22:21:32.600 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Start completed.
+2026-07-31 22:21:33.191 [restartedMain] INFO  com.example.test.TestApplication - Started TestApplication in 0.982 seconds (process running for 1755.417)
+2026-07-31 22:22:33.931 [http-nio-8080-exec-2] INFO  c.e.t.c.UserOrganizationController - Setting organizationId with user's organization id: 1
+2026-07-31 22:22:33.952 [http-nio-8080-exec-2] INFO  c.e.t.m.s.i.UserOrganizationServiceImpl - Creating new user entity to database for full name: Nguyen Van w
+2026-07-31 22:23:16.873 [http-nio-8080-exec-3] INFO  c.e.t.c.UserOrganizationController - Deleted user with ID: 18 in org: 1
+2026-07-31 22:23:16.874 [http-nio-8080-exec-3] INFO  c.e.t.m.s.i.UserOrganizationServiceImpl - Deleting user record with ID: 18 in organization ID: 1
+2026-07-31 22:23:22.822 [http-nio-8080-exec-4] INFO  c.e.t.c.UserOrganizationController - Deleted user with ID: 19 in org: 1
+2026-07-31 22:23:22.822 [http-nio-8080-exec-4] INFO  c.e.t.m.s.i.UserOrganizationServiceImpl - Deleting user record with ID: 19 in organization ID: 1

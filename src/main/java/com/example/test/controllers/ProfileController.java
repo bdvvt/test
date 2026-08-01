@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 public class ProfileController {
     private final IUserService userService;
     @GetMapping
-    public ResponseEntity<?> getProfile(@AuthenticationPrincipal CustomUserDetails user) {
+    public ResponseEntity<?> getProfile(@AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        return ResponseEntity.ok(user.getUser());
+        return ResponseEntity.ok(userService.findById(userDetails.getUser().getId()));
     }
 
     @PutMapping

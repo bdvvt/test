@@ -19,5 +19,8 @@ public class UserRes {
     private String email;
     private String phoneNumber;
     private LocalDate dateOfBirth;
+    private String avatarFile;
     private Set<RoleRes> roles;
+    private DepartmentRes department;
+    private OrganizationRes organization;
 }

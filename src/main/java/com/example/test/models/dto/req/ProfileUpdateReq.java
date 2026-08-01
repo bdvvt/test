@@ -1,5 +1,6 @@
 package com.example.test.models.dto.req;
 
+import com.example.test.validations.annotations.FileExtension;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -7,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -23,4 +25,7 @@ public class ProfileUpdateReq {
     private String phoneNumber;
 
     private LocalDate dateOfBirth;
+
+    @FileExtension(allowedExtensions = {".jpg",".png",".webp"},message = "File không đúng định dạng")
+    private MultipartFile avatarFile;
 }

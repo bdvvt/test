@@ -3,14 +3,17 @@ package com.example.test.models.services.impl;
 import com.example.test.exceptions.NotFoundException;
 import com.example.test.models.dto.req.RoleReq;
 import com.example.test.models.dto.res.RoleRes;
+import com.example.test.models.entities.Permission;
 import com.example.test.models.entities.Role;
 import com.example.test.models.mappers.RoleMapper;
+import com.example.test.models.repositories.IPermissionRepository;
 import com.example.test.models.repositories.IRoleRepository;
 import com.example.test.models.services.IRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Slf4j
@@ -19,19 +22,26 @@ import java.util.List;
 public class RoleServiceImpl implements IRoleService {
     private final IRoleRepository roleRepository;
     private final RoleMapper roleMapper;
+    private final IPermissionRepository permissionRepository;
 
     @Override
     public RoleRes createRole(RoleReq req) {
-        if (roleRepository.existsByCode(req.getCode())) {
-            throw new RuntimeException("Mã role đã tồn tại");
+        String formattedRoleName = req.getRoleName();
+        if (formattedRoleName != null && !formattedRoleName.trim().isEmpty()) {
+            formattedRoleName = formattedRoleName.trim().toUpperCase();
+            if (!formattedRoleName.startsWith("ROLE_")) {
+                formattedRoleName = "ROLE_" + formattedRoleName;
+            }
         }
-        if (roleRepository.existsByRoleName(req.getRoleName())) {
+        if (roleRepository.existsByRoleName(formattedRoleName)) {
             throw new RuntimeException("Role đã tồn tại");
         }
-        log.info("Creating new role entity to database for role name: {}", req.getRoleName());
+        List<Permission> permissions = permissionRepository.findAllByIdIn(req.getPermissions());
+        log.info("Creating new role entity to database for role name: {}", formattedRoleName);
         Role role = roleMapper.toEntity(req);
-        Role savedRole = roleRepository.save(role);
-        return roleMapper.toDto(savedRole);
+        role.setPermissions(new HashSet<>(permissions));
+        role.setRoleName(formattedRoleName);
+        return roleMapper.toDto(roleRepository.save(role));
     }
 
     @Override
@@ -50,8 +60,18 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public RoleRes updateRole(Long id, RoleReq req) {
         Role updateRole = roleRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
+        String formattedRoleName = req.getRoleName();
+        if (formattedRoleName != null && !formattedRoleName.trim().isEmpty()) {
+            formattedRoleName = formattedRoleName.trim().toUpperCase();
+            if (!formattedRoleName.startsWith("ROLE_")) {
+                formattedRoleName = "ROLE_" + formattedRoleName;
+            }
+        }
+        List<Permission> permissions = permissionRepository.findAllByIdIn(req.getPermissions());
         log.info("Updating role record with ID: {}", id);
         roleMapper.updateRoleFromReq(req, updateRole);
-        return roleMapper.toDto(updateRole);
+        updateRole.setRoleName(formattedRoleName);
+        updateRole.setPermissions(new HashSet<>(permissions));
+        return roleMapper.toDto(roleRepository.save(updateRole));
     }
 }

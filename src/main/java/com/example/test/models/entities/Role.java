@@ -1,11 +1,11 @@
 package com.example.test.models.entities;
 
-import com.example.test.models.constants.RoleName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -19,14 +19,18 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code", unique = true)
-    private String code;
-
-    @Enumerated(EnumType.STRING)
     @Column(name = "role_name")
-    private RoleName roleName;
+    private String roleName = "ROLE_USER";
 
     @ManyToMany(mappedBy = "roles")
-    @JsonIgnore
     private List<User> users;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "role_permissions",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id")
+    )
+    private Set<Permission> permissions;
+
 }

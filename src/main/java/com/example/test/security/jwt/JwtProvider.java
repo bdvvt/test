@@ -26,19 +26,19 @@ public class JwtProvider {
         Date now = new Date();
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + jwtExpire))
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpire))
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
     }
 
     public  String getUsernameFromToken(String token){
-        return Jwts.parser().setSigningKey(jwtSecret).build().parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).build().parseClaimsJws(token);
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return true;
         } catch (SignatureException e) {
             log.error("Invalid JWT signature: {}", e.getMessage());

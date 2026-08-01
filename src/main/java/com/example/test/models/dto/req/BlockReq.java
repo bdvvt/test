@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class BlockReq {
-    @NotNull(message = "Trạng thái block không được để trống")
     private boolean block;
 }

@@ -9,14 +9,16 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {PermissionMapper.class})
 public interface RoleMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "users", ignore = true)
+    @Mapping(target = "permissions", ignore = true)
     Role toEntity(RoleReq req);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "users", ignore = true)
+    @Mapping(target = "permissions", ignore = true)
     void updateRoleFromReq(RoleReq req, @MappingTarget Role role);
 
     RoleRes toDto(Role role);

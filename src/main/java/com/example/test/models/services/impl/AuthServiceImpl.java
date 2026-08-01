@@ -2,13 +2,11 @@ package com.example.test.models.services.impl;
 
 import com.example.test.exceptions.AuthException;
 import com.example.test.exceptions.NotFoundException;
-import com.example.test.models.constants.RoleName;
 import com.example.test.models.dto.req.BlockReq;
 import com.example.test.models.dto.req.LoginReq;
 import com.example.test.models.dto.req.RegisterReq;
 import com.example.test.models.dto.res.BlockRes;
 import com.example.test.models.dto.res.LoginRes;
-import com.example.test.models.dto.res.UserRes;
 import com.example.test.models.entities.Role;
 import com.example.test.models.entities.User;
 import com.example.test.models.mappers.UserMapper;
@@ -46,18 +44,13 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public void register(RegisterReq req) {
-        if (userRepository.existsByUsername(req.getUsername())) {
-            throw new RuntimeException("Người dùng đã tồn tại");
-        }
-        if (userRepository.findByEmail(req.getEmail()).isPresent()) {
-            throw new RuntimeException("Email đã được sử dụng");
-        }
-        Role defaultRole = roleRepository.findByRoleName(RoleName.ROLE_USER)
-                .orElseThrow(() -> new NotFoundException("Không tìm thấy role mặc định ROLE_USER"));
+        Set<Role> roles = new HashSet<>();
+        roles.add(
+                roleRepository.findByRoleName("ROLE_USER")
+                        .orElseThrow(() -> new NotFoundException("Role not found"))
+        );
         User user =userMapper.toEntity(req);
         user.setPassword(passwordEncoder.encode(req.getPassword()));
-        Set<Role> roles = new HashSet<>();
-        roles.add(defaultRole);
         user.setRoles(roles);
         User savedUser = userRepository.save(user);
         userMapper.toDto(savedUser);
@@ -66,11 +59,11 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public LoginRes login(LoginReq req) {
         Authentication authentication;
+
         try {
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword())
             );
-
         } catch (LockedException e) {
             throw new AuthException("Tài khoản của bạn đã bị khóa");
         } catch (AuthenticationException e) {
@@ -87,7 +80,7 @@ public class AuthServiceImpl implements IAuthService {
                 .phoneNumber(userDetails.getUser().getPhoneNumber())
                 .dateOfBirth(userDetails.getUser().getDateOfBirth())
                 .roles(userDetails.getUser().getRoles()
-                        .stream().map(role -> role.getRoleName().name())
+                        .stream().map(role -> role.getRoleName())
                         .collect(Collectors.toSet())
                 )
                 .accessToken(token)
@@ -98,10 +91,10 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public BlockRes toggleBlockUser(Long id, BlockReq req) {
+    public BlockRes toggleBlockUser(Long id, boolean blockStatus) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Người dùng đã bị khóa"));
         log.info("Blocking user record with ID: {}", id);
-        userMapper.blockUserFromReq(req, user);
+        user.setBlock(blockStatus);
         return userMapper.toBlockRes(userRepository.save(user));
     }
 }
