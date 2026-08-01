@@ -1,5 +1,6 @@
 package com.example.test.controllers;
 
+import com.example.test.models.dto.req.ActiveUserReq;
 import com.example.test.models.dto.req.BlockReq;
 import com.example.test.models.dto.req.LoginReq;
 import com.example.test.models.dto.req.RegisterReq;
@@ -53,6 +54,18 @@ public class AuthController {
                         .code(200)
                         .message("Cập nhật trạng thái khóa tài khoản thành công")
                         .data(authService.toggleBlockUser(id, status))
+                        .build()
+        );
+    }
+
+    @PostMapping("/active-user")
+    public ResponseEntity<?> activeUser(@Valid @RequestBody ActiveUserReq req) {
+        log.info("Attempting activation for email: {}", req.getEmail());
+        return ResponseEntity.ok(
+                ApiResponse.builder()
+                        .message("Active User Successfully")
+                        .code(200)
+                        .data(authService.activeUser(req))
                         .build()
         );
     }

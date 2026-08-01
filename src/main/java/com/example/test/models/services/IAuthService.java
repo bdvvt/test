@@ -1,5 +1,6 @@
 package com.example.test.models.services;
 
+import com.example.test.models.dto.req.ActiveUserReq;
 import com.example.test.models.dto.req.BlockReq;
 import com.example.test.models.dto.req.LoginReq;
 import com.example.test.models.dto.req.RegisterReq;
@@ -11,4 +12,5 @@ public interface IAuthService {
     void register(RegisterReq req);
     LoginRes login(LoginReq req);
     BlockRes toggleBlockUser(Long id, boolean status);
+    String activeUser(ActiveUserReq req);
 }

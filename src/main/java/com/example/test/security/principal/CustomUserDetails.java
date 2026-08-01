@@ -39,4 +39,9 @@ public class CustomUserDetails implements UserDetails {
         return !this.user.isBlock();
     }
 
+    @Override
+    public boolean isEnabled() {
+        return this.user.isEnabled();
+    }
+
 }

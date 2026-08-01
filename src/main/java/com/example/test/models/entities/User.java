@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -58,5 +59,14 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "organization_id")
     private Organization organization;
+
+    @Column(name = "enabled")
+    private boolean enabled = false;
+
+    @Column(name = "otp_code")
+    private String otpCode;
+
+    @Column(name = "otp_expiration")
+    private LocalDateTime otpExpiration;
 
 }
