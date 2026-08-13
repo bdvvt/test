@@ -1,4 +1,4 @@
-package com.example.test.models.services.user;
+package com.example.test.models.services;
 
 import com.example.test.models.dto.req.UserOrganizationReq;
 import com.example.test.models.dto.req.UserReq;

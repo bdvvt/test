@@ -1,6 +1,6 @@
-package com.example.test.models.services.mail.impl;
+package com.example.test.models.services.impl;
 
-import com.example.test.models.services.mail.IMailService;
+import com.example.test.models.services.IMailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;

@@ -1,4 +1,4 @@
-package com.example.test.models.services.auth;
+package com.example.test.models.services;
 
 import com.example.test.models.dto.req.ActiveUserReq;
 import com.example.test.models.dto.req.BlockReq;

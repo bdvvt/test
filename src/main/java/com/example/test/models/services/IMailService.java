@@ -1,4 +1,4 @@
-package com.example.test.models.services.mail;
+package com.example.test.models.services;
 
 public interface IMailService {
     void sendOtpMail(String toEmail, String otp);

@@ -2,7 +2,7 @@ package com.example.test.controllers;
 
 import com.example.test.models.dto.req.UserOrganizationReq;
 import com.example.test.models.dto.wrapper.ApiResponse;
-import com.example.test.models.services.user.IUserOrganizationService;
+import com.example.test.models.services.IUserOrganizationService;
 import com.example.test.security.principal.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.test.models.services.role.impl;
+package com.example.test.models.services.impl;
 
 import com.example.test.exceptions.NotFoundException;
 import com.example.test.models.dto.req.RoleReq;
@@ -9,7 +9,7 @@ import com.example.test.models.entities.User;
 import com.example.test.models.mappers.RoleMapper;
 import com.example.test.models.repositories.IPermissionRepository;
 import com.example.test.models.repositories.IRoleRepository;
-import com.example.test.models.services.role.IRoleService;
+import com.example.test.models.services.IRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

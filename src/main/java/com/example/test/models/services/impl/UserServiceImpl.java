@@ -1,19 +1,18 @@
 package com.example.test.models.services.impl;
 
 import com.example.test.exceptions.NotFoundException;
-import com.example.test.models.dto.req.BlockReq;
 import com.example.test.models.dto.req.ProfileUpdateReq;
-import com.example.test.models.dto.res.BlockRes;
-import com.example.test.models.dto.res.DepartmentRes;
 import com.example.test.models.dto.res.UserRes;
 import com.example.test.models.entities.Department;
 import com.example.test.models.entities.Organization;
-import com.example.test.models.mappers.DepartmentMapper;
 import com.example.test.models.mappers.UserMapper;
 import com.example.test.models.dto.req.UserReq;
 import com.example.test.models.entities.Role;
 import com.example.test.models.entities.User;
-import com.example.test.models.repositories.*;
+import com.example.test.models.repositories.IDepartmentRepository;
+import com.example.test.models.repositories.IOrganizationRepository;
+import com.example.test.models.repositories.IRoleRepository;
+import com.example.test.models.repositories.IUserRepository;
 import com.example.test.models.services.IUserService;
 import com.example.test.models.services.uploads.UploadService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +35,6 @@ public class UserServiceImpl implements IUserService {
     private final UserMapper userMapper;
     private final IOrganizationRepository organizationRepository;
     private final UploadService uploadService;
-    private final DepartmentMapper departmentMapper;
 
     @Override
     public UserRes createUser(UserReq req) {
@@ -58,7 +56,6 @@ public class UserServiceImpl implements IUserService {
         user.setRoles(new HashSet<>(role));
         user.setDepartment(department);
         user.setOrganization(organization);
-        user.setEnabled(true);
         return userMapper.toDto(userRepository.save(user));
     }
 
@@ -92,11 +89,12 @@ public class UserServiceImpl implements IUserService {
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy tổ chức với ID: " + req.getOrganizationId()));
         userMapper.updateUserFromReq(req, updateUser);
         updateUser.setPassword(passwordEncoder.encode(req.getPassword()));
-        updateUser.setAvatarUrl(uploadService.upload(req.getAvatarFile()));
+        Optional.ofNullable(req.getAvatarFile())
+                .filter(file -> !file.isEmpty())
+                .ifPresent(file -> updateUser.setAvatarUrl(uploadService.upload(file)));
         updateUser.setRoles(new HashSet<>(roles));
         updateUser.setDepartment(department);
         updateUser.setOrganization(organization);
-        updateUser.setEnabled(true);
         return userMapper.toDto(userRepository.save(updateUser));
     }
 
@@ -109,22 +107,5 @@ public class UserServiceImpl implements IUserService {
         return userMapper.toDto(userRepository.save(updateProfile));
     }
 
-    @Override
-    public BlockRes toggleBlockUser(Long id, BlockReq req) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Người dùng đã bị khóa"));
-        log.info("Blocking user record with ID: {}", id);
-        user.setBlock(req.isBlock());
-        return userMapper.toBlockRes(userRepository.save(user));
-    }
 
-    @Override
-    public List<DepartmentRes> getManagedDepartmentsByMember(Long memberId) {
-        if (!userRepository.existsById(memberId)) {
-            throw new NotFoundException("Không tìm thấy người dùng ID: " + memberId);
-        }
-
-        List<Department> departments = departmentRepository.findManagedDepartmentsByMemberId(memberId);
-
-        return departmentMapper.toDtoList(departments);
-    }
 }

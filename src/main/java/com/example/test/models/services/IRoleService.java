@@ -1,4 +1,4 @@
-package com.example.test.models.services.role;
+package com.example.test.models.services;
 
 import com.example.test.models.dto.req.RoleReq;
 import com.example.test.models.dto.res.RoleRes;

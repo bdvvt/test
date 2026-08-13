@@ -1,4 +1,4 @@
-package com.example.test.models.services.user;
+package com.example.test.models.services;
 
 import com.example.test.models.dto.req.BlockReq;
 import com.example.test.models.dto.req.ProfileUpdateReq;
@@ -11,7 +11,7 @@ import com.example.test.models.entities.User;
 
 import java.util.List;
 
-public interface IUserService extends UserQueryService, UserCommandService {
+public interface IUserService {
     UserRes createUser(UserReq req);
     UserRes updateUser(Long id, UserReq req);
     UserRes findById(Long id);

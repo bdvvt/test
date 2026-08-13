@@ -4,7 +4,6 @@ import com.example.test.exceptions.NotFoundException;
 import com.example.test.models.dto.req.UserOrganizationReq;
 import com.example.test.models.dto.req.UserReq;
 import com.example.test.models.dto.res.UserOrganizationRes;
-import com.example.test.models.dto.res.UserRes;
 import com.example.test.models.entities.Department;
 import com.example.test.models.entities.Organization;
 import com.example.test.models.entities.Role;
@@ -38,23 +37,23 @@ public class UserOrganizationServiceImpl implements IUserOrganizationService {
     private final UploadService uploadService;
 
     @Override
-    public UserRes findByIdInOrganization(Long id, Long orgId) {
+    public UserOrganizationRes findByIdInOrganization(Long id, Long orgId) {
         User user = userRepository.findByIdAndOrganizationId(id, orgId).orElseThrow(() -> new RuntimeException("không tìm thấy người dùng trong công ty"));
-        return userMapper.toDto(user);
+        return userMapper.toOrgDto(user);
     }
 
     @Override
-    public UserRes createUserInOrganization(Long orgId, UserOrganizationReq req) {
+    public UserOrganizationRes createUserInOrganization(Long orgId, UserOrganizationReq req) {
         if (userRepository.existsByUsername(req.getUsername())) {
             throw new RuntimeException("Tên đăng nhập đã được sử dụng");
         }
         if (userRepository.findByEmail(req.getEmail()).isPresent()) {
             throw new RuntimeException("Email đã được sử dụng");
         }
-        Department department = departmentRepository.findById(req.getDepartmentId())
-                .orElseThrow(() -> new NotFoundException("Không tìm thấy bộ phận với ID: " + req.getDepartmentId()));
         Organization organization = organizationRepository.findById(orgId)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy tổ chức với ID: " + orgId));
+        Department department = departmentRepository.findById(req.getDepartmentId())
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy bộ phận với ID: " + req.getDepartmentId()));
         List<Role> role = roleRepository.findAllByIdIn(req.getRoles());
         log.info("Creating new user entity to database for full name: {}", req.getFullName());
         User user = userMapper.toOrgEntity(req);
@@ -63,8 +62,7 @@ public class UserOrganizationServiceImpl implements IUserOrganizationService {
         user.setRoles(new HashSet<>(role));
         user.setDepartment(department);
         user.setOrganization(organization);
-        user.setEnabled(true);
-        return userMapper.toDto(userRepository.save(user));
+        return userMapper.toOrgDto(userRepository.save(user));
     }
 
     @Override
@@ -75,28 +73,26 @@ public class UserOrganizationServiceImpl implements IUserOrganizationService {
     }
 
     @Override
-    public List<UserRes> listUsersInOrganization(Long orgId) {
+    public List<UserOrganizationRes> listUsersInOrganization(Long orgId) {
         log.info("Listing all users for organization ID: {}", orgId);
         List<User> users = userRepository.findAllByOrganizationId(orgId);
-        return userMapper.toDtoList(users);
+        return userMapper.toOrgDtoList(users);
     }
 
     @Override
-    public UserRes updateUserInOrganization(Long id, Long orgId, UserOrganizationReq req) {
+    public UserOrganizationRes updateUserInOrganization(Long id, Long orgId, UserOrganizationReq req) {
         User updateUser = userRepository.findByIdAndOrganizationId(id, orgId).orElseThrow(() -> new NotFoundException("Not found id " + id + " in organization " + orgId));
         log.info("Updating user record with ID: {}", id);
         Department department = departmentRepository.findById(req.getDepartmentId())
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy bộ phận với ID: " + req.getDepartmentId()));
-        Organization organization = organizationRepository.findById(orgId)
-                .orElseThrow(() -> new NotFoundException("Không tìm thấy tổ chức với ID: " + orgId));
         List<Role> roles = roleRepository.findAllByIdIn(req.getRoles());
         userMapper.updateUserInOrgFromReq(req, updateUser);
         updateUser.setPassword(passwordEncoder.encode(req.getPassword()));
-        updateUser.setAvatarUrl(uploadService.upload(req.getAvatarFile()));
+        Optional.ofNullable(req.getAvatarFile())
+                .filter(file -> !file.isEmpty())
+                .ifPresent(file -> updateUser.setAvatarUrl(uploadService.upload(file)));
         updateUser.setRoles(new HashSet<>(roles));
         updateUser.setDepartment(department);
-        updateUser.setOrganization(organization);
-        updateUser.setEnabled(true);
-        return userMapper.toDto(userRepository.save(updateUser));
+        return userMapper.toOrgDto(userRepository.save(updateUser));
     }
 }
