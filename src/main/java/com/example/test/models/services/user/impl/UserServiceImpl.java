@@ -1,7 +1,9 @@
 package com.example.test.models.services.user.impl;
 
+import com.example.test.exceptions.DataConflictException;
 import com.example.test.exceptions.NotFoundException;
 import com.example.test.models.dto.req.ProfileUpdateReq;
+import com.example.test.models.dto.req.UpdateRoleUser;
 import com.example.test.models.dto.req.UserOrganizationReq;
 import com.example.test.models.dto.req.UserReq;
 import com.example.test.models.dto.res.UserOrganizationRes;
@@ -16,6 +18,7 @@ import com.example.test.models.repositories.IOrganizationRepository;
 import com.example.test.models.repositories.IRoleRepository;
 import com.example.test.models.repositories.IUserRepository;
 import com.example.test.models.services.uploads.UploadService;
+import com.example.test.models.services.user.IUserDepartmentService;
 import com.example.test.models.services.user.IUserOrganizationService;
 import com.example.test.models.services.user.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +34,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements IUserService, IUserOrganizationService {
+public class UserServiceImpl implements IUserService, IUserOrganizationService, IUserDepartmentService {
     private final IUserRepository userRepository;
     private final IRoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -169,6 +172,54 @@ public class UserServiceImpl implements IUserService, IUserOrganizationService {
         return userMapper.toOrgDtoList(userRepository.findAllByOrganizationId(orgId));
     }
 
+    // ==================== UserDepartmentService ====================
+
+    @Override
+    public UserRes findByUserInDepartment(Long id, Long orgId, Long deptId) {
+        return userMapper.toDto(findUserInDepartment(id, orgId, deptId));
+    }
+
+    @Override
+    public void deleteUserInDepartment(Long id, Long orgId, Long deptId) {
+        log.info("Deleting user record with ID: {} in organization {} and department {}", id, orgId, deptId);
+        userRepository.delete(findUserInDepartment(id, orgId, deptId));
+    }
+
+    @Override
+    public List<UserRes> listUsersInDepartment(Long orgId, Long deptId) {
+        return userMapper.toDtoList(
+                userRepository.findAllByOrganizationIdAndDepartmentId(orgId, deptId)
+        );
+    }
+
+    @Override
+    public UserRes updateUserRoleInDept(
+            Long id,
+            Long orgId,
+            Long deptId,
+            UpdateRoleUser req
+    ) {
+        User user = findUserInDepartment(id, orgId, deptId);
+        Department department = findDepartment(deptId);
+        Organization organization = findOrganization(orgId);
+        List<Role> roles = roleRepository.findAllByIdIn(req.getRoles());
+
+        boolean isManager = roles.stream()
+                .anyMatch(role -> role.getRoleName().equalsIgnoreCase("ROLE_MANAGER"));
+        if (isManager && userRepository.existsByDepartmentIdAndRolesRoleNameAndIdNot(
+                deptId,
+                "ROLE_MANAGER",
+                id
+        )) {
+            throw new DataConflictException("Phòng ban này đã có Manager!");
+        }
+
+        user.setRoles(new HashSet<>(roles));
+        user.setDepartment(department);
+        user.setOrganization(organization);
+        return userMapper.toDto(userRepository.save(user));
+    }
+
     // ==================== Shared private helpers ====================
 
     private void validateNewUser(String username, String email) {
@@ -215,6 +266,27 @@ public class UserServiceImpl implements IUserService, IUserOrganizationService {
         Optional.ofNullable(avatarFile)
                 .filter(file -> !file.isEmpty())
                 .ifPresent(file -> user.setAvatarUrl(uploadService.upload(file)));
+    }
+
+    private User findUserInDepartment(Long id, Long orgId, Long deptId) {
+        return userRepository.findByIdAndOrganizationIdAndDepartmentId(id, orgId, deptId)
+                .orElseThrow(() -> new NotFoundException(
+                        "Not found id " + id + " in organization " + orgId + " and department " + deptId
+                ));
+    }
+
+    private Department findDepartment(Long departmentId) {
+        return departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new NotFoundException(
+                        "Không tìm thấy bộ phận với ID: " + departmentId
+                ));
+    }
+
+    private Organization findOrganization(Long organizationId) {
+        return organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new NotFoundException(
+                        "Không tìm thấy tổ chức với ID: " + organizationId
+                ));
     }
 
     private User findUserById(Long id) {
