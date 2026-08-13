@@ -1,4 +1,4 @@
 package com.example.test.models.dto.res;
 
-public class DepartmentRes {
+public class ManagerRes {
 }
