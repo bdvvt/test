@@ -2,7 +2,7 @@ package com.example.test.controllers;
 
 import com.example.test.models.dto.req.UserReq;
 import com.example.test.models.dto.wrapper.ApiResponse;
-import com.example.test.models.services.IUserService;
+import com.example.test.models.services.user.IUserService;
 import com.example.test.security.principal.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

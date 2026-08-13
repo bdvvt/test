@@ -1,4 +1,4 @@
-package com.example.test.models.services;
+package com.example.test.models.services.permission;
 
 import com.example.test.models.dto.req.PermissionReq;
 import com.example.test.models.dto.req.RoleReq;

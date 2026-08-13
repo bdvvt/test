@@ -2,7 +2,7 @@ package com.example.test.controllers;
 
 import com.example.test.models.dto.req.PermissionReq;
 import com.example.test.models.dto.wrapper.ApiResponse;
-import com.example.test.models.services.IPermissionService;
+import com.example.test.models.services.permission.IPermissionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

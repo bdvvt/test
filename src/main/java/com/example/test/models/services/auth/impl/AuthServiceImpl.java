@@ -1,4 +1,4 @@
-package com.example.test.models.services.impl;
+package com.example.test.models.services.auth.impl;
 
 import com.example.test.exceptions.AuthException;
 import com.example.test.exceptions.NotFoundException;
@@ -13,8 +13,8 @@ import com.example.test.models.entities.User;
 import com.example.test.models.mappers.UserMapper;
 import com.example.test.models.repositories.IRoleRepository;
 import com.example.test.models.repositories.IUserRepository;
-import com.example.test.models.services.IAuthService;
-import com.example.test.models.services.IMailService;
+import com.example.test.models.services.auth.IAuthService;
+import com.example.test.models.services.mail.IMailService;
 import com.example.test.security.jwt.JwtProvider;
 import com.example.test.security.principal.CustomUserDetails;
 import lombok.RequiredArgsConstructor;

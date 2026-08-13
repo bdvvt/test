@@ -1,4 +1,4 @@
-package com.example.test.models.services;
+package com.example.test.models.services.department;
 
 import com.example.test.models.dto.req.DepartmentReq;
 import com.example.test.models.dto.res.DepartmentRes;

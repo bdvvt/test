@@ -1,4 +1,4 @@
-package com.example.test.models.services;
+package com.example.test.models.services.organization;
 
 import com.example.test.models.dto.req.OrganizationReq;
 import com.example.test.models.dto.res.OrganizationRes;

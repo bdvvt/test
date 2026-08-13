@@ -1,4 +1,4 @@
-package com.example.test.models.services.impl;
+package com.example.test.models.services.organization.impl;
 
 import com.example.test.exceptions.NotFoundException;
 import com.example.test.models.dto.req.OrganizationReq;
@@ -9,7 +9,7 @@ import com.example.test.models.mappers.OrganizationMapper;
 import com.example.test.models.repositories.IDepartmentRepository;
 import com.example.test.models.repositories.IOrganizationRepository;
 import com.example.test.models.repositories.IUserRepository;
-import com.example.test.models.services.IOrganizationService;
+import com.example.test.models.services.organization.IOrganizationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

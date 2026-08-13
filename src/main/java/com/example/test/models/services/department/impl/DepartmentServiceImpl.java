@@ -1,4 +1,4 @@
-package com.example.test.models.services.impl;
+package com.example.test.models.services.department.impl;
 
 import com.example.test.exceptions.NotFoundException;
 import com.example.test.models.dto.req.DepartmentReq;
@@ -11,7 +11,7 @@ import com.example.test.models.entities.Role;
 import com.example.test.models.entities.User;
 import com.example.test.models.mappers.DepartmentMapper;
 import com.example.test.models.repositories.IDepartmentRepository;
-import com.example.test.models.services.IDepartmentService;
+import com.example.test.models.services.department.IDepartmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

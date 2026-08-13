@@ -1,4 +1,4 @@
-package com.example.test.models.services.impl;
+package com.example.test.models.services.permission.impl;
 
 import com.example.test.exceptions.NotFoundException;
 import com.example.test.models.dto.req.PermissionReq;
@@ -8,8 +8,8 @@ import com.example.test.models.entities.Role;
 import com.example.test.models.mappers.PermissionMapper;
 import com.example.test.models.repositories.IPermissionRepository;
 import com.example.test.models.repositories.IRoleRepository;
-import com.example.test.models.services.IPermissionService;
-import com.example.test.models.services.IRoleService;
+import com.example.test.models.services.permission.IPermissionService;
+import com.example.test.models.services.role.IRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
