@@ -23,6 +23,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -39,10 +44,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint() {
-        return new JwtEntryPoint();
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -63,9 +64,13 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/profile/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/profile/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-                        .requestMatchers("/api/v1/users/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers( "/api/v1/auth/profile/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/organizations/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/organizations/**").hasAnyAuthority("ROLE_COMPANY_CREATOR","ROLE_ADMIN_SYSTEM")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/organizations/**").hasAnyAuthority("ROLE_COMPANY_CREATOR","ROLE_ADMIN_SYSTEM")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/organizations/**").hasAnyAuthority("ROLE_COMPANY_CREATOR","ROLE_ADMIN_SYSTEM")
+                        .requestMatchers( "/api/v1/permissions/**").hasAnyAuthority("ROLE_ADMIN_SYSTEM")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/users/*/roles/organization").hasAnyAuthority("ROLE_COMPANY_CREATOR", "ROLE_ADMIN")
                         .anyRequest().authenticated())
                 .cors(Customizer.withDefaults())
                 .exceptionHandling(ex -> ex
@@ -76,4 +81,16 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
+
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000"));
+//        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+//        configuration.setAllowCredentials(true);
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 }

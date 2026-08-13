@@ -1,16 +1,15 @@
 package com.example.test.controllers;
 
+import com.example.test.models.dto.req.BlockReq;
 import com.example.test.models.dto.req.UserReq;
 import com.example.test.models.dto.wrapper.ApiResponse;
-import com.example.test.models.services.user.IUserService;
-import com.example.test.security.principal.CustomUserDetails;
+import com.example.test.models.services.IUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -21,13 +20,9 @@ public class UserController {
     private final IUserService userService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('CREATE')")
-    public ResponseEntity<?> addNewUser(@AuthenticationPrincipal CustomUserDetails currentUser, @Valid @ModelAttribute UserReq req) {
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_SYSTEM')")
+    public ResponseEntity<?> addNewUser(@Valid @ModelAttribute UserReq req) {
         log.info("Received request to add new user: {}", req);
-        Long adminOrgId = currentUser.getUser().getOrganization().getId();
-        req.setOrganizationId(adminOrgId);
-        log.info("Setting organizationId with user's organization id: {}", adminOrgId);
-
         return ResponseEntity.status(201).body(
                 ApiResponse.builder()
                         .message("Add New User Successfully")
@@ -38,11 +33,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('UPDATE')")
-    public ResponseEntity<?> updateUser(@AuthenticationPrincipal CustomUserDetails currentUser,@PathVariable Long id, @Valid @ModelAttribute  UserReq req){
-        log.info("Updating user with ID: {}", id);
-        Long orgId = currentUser.getUser().getOrganization().getId();
-        req.setOrganizationId(orgId);
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_SYSTEM')")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @ModelAttribute  UserReq req){
+        log.info("Received request to update user: {}", req);
         return ResponseEntity.status(200).body(
                 ApiResponse.builder()
                         .message("Updated User Successfully")
@@ -53,7 +46,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_SYSTEM')")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         log.info("Fetching user with ID: {}", id);
         return ResponseEntity.ok(
@@ -66,10 +59,10 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('DELETE')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_SYSTEM')")
     public ResponseEntity<?> dropout(@PathVariable Long id){
         log.info("Deleted user with ID: {}", id);
-
+        userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(
                 ApiResponse.builder()
                         .message("Deleted User Successfully")
@@ -80,6 +73,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_SYSTEM')")
     public ResponseEntity<?> findAll() {
         log.info("Fetching all users");
         return ResponseEntity.ok(
@@ -89,6 +83,28 @@ public class UserController {
                         .data(userService.findAll())
                         .build()
         );
+    }
+
+    @PutMapping("/{id}/block")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_SYSTEM')")
+    public ResponseEntity<?> toggleBlockUser(@PathVariable Long id, @Valid @ModelAttribute BlockReq req) {
+        log.info("Updating status for user ID: {}", id);
+        return ResponseEntity.ok(
+                ApiResponse.builder()
+                        .code(200)
+                        .message("Cập nhật trạng thái khóa tài khoản thành công")
+                        .data(userService.toggleBlockUser(id, req))
+                        .build()
+        );
+    }
+
+    @GetMapping("/{member_id}/managed_departments")
+    public ResponseEntity<?> getManagedDepartments(@PathVariable("member_id") Long memberId) {
+        return ResponseEntity.ok(ApiResponse.builder()
+                .code(200)
+                .message("Lấy danh sách phòng ban do nhân sự quản lý thành công")
+                .data(userService.getManagedDepartmentsByMember(memberId))
+                .build());
     }
 
 

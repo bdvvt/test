@@ -2,6 +2,7 @@ package com.example.test.models.mappers;
 
 import com.example.test.models.dto.req.*;
 import com.example.test.models.dto.res.BlockRes;
+import com.example.test.models.dto.res.ManagerRes;
 import com.example.test.models.dto.res.UserOrganizationRes;
 import com.example.test.models.dto.res.UserRes;
 import com.example.test.models.entities.User;
@@ -54,12 +55,15 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "phoneNumber", ignore = true)
+    @Mapping(target = "dateOfBirth", ignore = true)
     @Mapping(target = "block", ignore = true)
     @Mapping(target = "department", ignore = true)
     @Mapping(target = "organization", ignore = true)
     User toOrgEntity(UserOrganizationReq req);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "username", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "block", ignore = true)
@@ -67,8 +71,11 @@ public interface UserMapper {
     @Mapping(target = "organization", ignore = true)
     void updateUserInOrgFromReq(UserOrganizationReq req, @MappingTarget User user);
 
-    @Mapping(target = "avatarFile", source = "avatarUrl")
-    UserOrganizationRes toOrgDto(User user);
+    @Mapping(source = "id", target = "memberId")
+    @Mapping(source = "fullName", target = "fullName")
+    @Mapping(source = "email", target = "email")
+    ManagerRes toManagerDto(User user);
 
-    List<UserOrganizationRes> toOrgDtoList(List<User> users);
+    List<ManagerRes> toManagerDtoList(List<User> users);
+
 }

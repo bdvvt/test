@@ -20,12 +20,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserOrganizationController {
     private final IUserOrganizationService userOrganizationService;
 
-    @PostMapping("/organizations")
-    @PreAuthorize("hasAuthority('CREATE')")
+    @PostMapping("/organization")
+    @PreAuthorize("hasAnyAuthority('ROLE_COMPANY_CREATOR')")
     public ResponseEntity<?> addNewUser(@AuthenticationPrincipal CustomUserDetails currentUser, @Valid @ModelAttribute UserOrganizationReq req) {
         Long orgId = currentUser.getUser().getOrganization().getId();
         log.info("Setting organizationId with user's organization id: {}", orgId);
-
         return ResponseEntity.status(201).body(
                 ApiResponse.builder()
                         .message("Add New User Successfully")
@@ -35,8 +34,8 @@ public class UserOrganizationController {
         );
     }
 
-    @PutMapping("/{id}/organizations")
-    @PreAuthorize("hasAuthority('UPDATE')")
+    @PutMapping("/{id}/organization")
+    @PreAuthorize("hasAnyAuthority('ROLE_COMPANY_CREATOR')")
     public ResponseEntity<?> updateUser(@AuthenticationPrincipal CustomUserDetails currentUser, @PathVariable Long id, @Valid @ModelAttribute  UserOrganizationReq req){
         Long orgId = currentUser.getUser().getOrganization().getId();
         log.info("Updating user ID: {} in org: {}", id, orgId);
@@ -49,8 +48,8 @@ public class UserOrganizationController {
         );
     }
 
-    @GetMapping("/{id}/organizations")
-    @PreAuthorize("hasAuthority('READ')")
+    @GetMapping("/{id}/organization")
+    @PreAuthorize("hasAnyAuthority('ROLE_COMPANY_CREATOR')")
     public ResponseEntity<?> findById(@AuthenticationPrincipal CustomUserDetails currentUser,@PathVariable Long id) {
         Long orgId = currentUser.getUser().getOrganization().getId();
         log.info("Fetching user with ID: {} in org: {}", id, orgId);
@@ -63,8 +62,8 @@ public class UserOrganizationController {
         );
     }
 
-    @DeleteMapping("/{id}/organizations")
-    @PreAuthorize("hasAuthority('DELETE')")
+    @DeleteMapping("/{id}/organization")
+    @PreAuthorize("hasAnyAuthority('ROLE_COMPANY_CREATOR')")
     public ResponseEntity<?> dropout(@AuthenticationPrincipal CustomUserDetails currentUser, @PathVariable Long id){
         Long orgId = currentUser.getUser().getOrganization().getId();
         log.info("Deleted user with ID: {} in org: {}", id, orgId);
@@ -78,10 +77,9 @@ public class UserOrganizationController {
         );
     }
 
-    @GetMapping("/organizations")
-    @PreAuthorize("hasAuthority('READ')")
-    public ResponseEntity<?> findAll(@AuthenticationPrincipal CustomUserDetails currentUser) {
-        Long orgId = currentUser.getUser().getOrganization().getId();
+    @GetMapping("/organization/{orgId}")
+    @PreAuthorize("@crossSecurity.canAccessOrganization(authentication, #orgId)")
+    public ResponseEntity<?> findAll(@AuthenticationPrincipal CustomUserDetails currentUser, @PathVariable Long orgId) {
         log.info("Fetching all users in org: {}", orgId);
         return ResponseEntity.ok(
                 ApiResponse.builder()

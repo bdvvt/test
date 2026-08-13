@@ -1,11 +1,11 @@
 package com.example.test.models.mappers;
 
+import com.example.test.models.dto.req.AddManagerReq;
 import com.example.test.models.dto.req.DepartmentReq;
-import com.example.test.models.dto.req.RoleReq;
 import com.example.test.models.dto.res.DepartmentRes;
-import com.example.test.models.dto.res.RoleRes;
+import com.example.test.models.dto.res.ManagerRes;
 import com.example.test.models.entities.Department;
-import com.example.test.models.entities.Role;
+import com.example.test.models.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -27,4 +27,5 @@ public interface DepartmentMapper {
     DepartmentRes toDto(Department department);
 
     List<DepartmentRes> toDtoList(List<Department> departments);
+
 }

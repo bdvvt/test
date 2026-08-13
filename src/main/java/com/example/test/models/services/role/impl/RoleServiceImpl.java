@@ -5,6 +5,7 @@ import com.example.test.models.dto.req.RoleReq;
 import com.example.test.models.dto.res.RoleRes;
 import com.example.test.models.entities.Permission;
 import com.example.test.models.entities.Role;
+import com.example.test.models.entities.User;
 import com.example.test.models.mappers.RoleMapper;
 import com.example.test.models.repositories.IPermissionRepository;
 import com.example.test.models.repositories.IRoleRepository;
@@ -48,6 +49,10 @@ public class RoleServiceImpl implements IRoleService {
     public void deleteRole(Long id) {
         Role deleteRole = findRole(id);
         log.info("Deleting role record with ID: {}", id);
+        for (User user : deleteRole.getUsers()) {
+            user.getRoles().remove(deleteRole);
+            user.getRoles().add(roleRepository.findByRoleName("ROLE_USER").orElseThrow(() -> new NotFoundException("Default role not found")));
+        }
         roleRepository.delete(deleteRole);
     }
 

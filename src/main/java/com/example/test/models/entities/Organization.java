@@ -1,5 +1,6 @@
 package com.example.test.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,7 +24,7 @@ public class Organization {
     @Column(name = "address")
     private String address;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "organization")
     private List<Department> departments;
 
     @OneToMany(mappedBy = "organization")

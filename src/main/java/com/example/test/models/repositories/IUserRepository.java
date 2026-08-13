@@ -2,8 +2,11 @@ package com.example.test.models.repositories;
 
 import com.example.test.models.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +15,23 @@ import java.util.Optional;
 public interface IUserRepository extends JpaRepository<User,Long> {
     boolean existsByUsername(String username);
     Optional<User> findByEmail(String email);
-    Optional<User> findByUsername(String username);
     Optional<User> findByIdAndOrganizationId(Long id, Long orgId);
     List<User> findAllByOrganizationId(Long orgId);
+    void deleteByEnabledFalseAndOtpExpirationBefore(LocalDateTime cutoffTime);
+    Optional<User> findByIdAndOrganizationIdAndDepartmentId(Long id, Long orgId, Long deptId);
+    List<User> findAllByOrganizationIdAndDepartmentId(Long orgId, Long deptId);
+
+    @Query("SELECT u FROM User u WHERE u.email = :identifier OR u.username = :identifier")
+    Optional<User> findByEmailOrUsername(@Param("identifier") String identifier);
+
+    @Query("""
+        SELECT CASE WHEN COUNT(d) > 0 THEN true ELSE false END
+        FROM Department d
+        JOIN d.managers m
+        JOIN d.users u
+        WHERE m.id = :managerId AND u.id = :userId
+    """)
+    boolean isManagerOfUserDepartment(@Param("managerId") Long managerId, @Param("userId") Long userId);
+
+    boolean existsByDepartmentIdAndRolesRoleNameAndIdNot(Long deptId, String roleName, Long userId);
 }

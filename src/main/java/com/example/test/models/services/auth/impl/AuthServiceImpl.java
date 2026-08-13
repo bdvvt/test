@@ -50,10 +50,6 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public void register(RegisterReq req) {
         Set<Role> roles = new HashSet<>();
-        roles.add(
-                roleRepository.findByRoleName("ROLE_USER")
-                        .orElseThrow(() -> new NotFoundException("Role not found"))
-        );
         String otp = String.valueOf((int) ((Math.random() * 900000) + 100000));
         LocalDateTime expiration = LocalDateTime.now().plusMinutes(5);
         User user = userMapper.toEntity(req);
@@ -63,7 +59,6 @@ public class AuthServiceImpl implements IAuthService {
         user.setOtpCode(otp);
         user.setOtpExpiration(expiration);
         userRepository.save(user);
-        mailService.sendOtpMail(user.getEmail(), otp);
     }
 
     @Override
@@ -71,7 +66,7 @@ public class AuthServiceImpl implements IAuthService {
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword())
+                    new UsernamePasswordAuthenticationToken(req.getUsernameOrEmail(), req.getPassword())
             );
         } catch (DisabledException e) {
             throw new AuthException("Vui lòng active tài khoản trước khi đăng nhập !");
@@ -100,27 +95,27 @@ public class AuthServiceImpl implements IAuthService {
 
     }
 
-    @Override
-    public BlockRes toggleBlockUser(Long id, boolean blockStatus) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Người dùng đã bị khóa"));
-        log.info("Blocking user record with ID: {}", id);
-        user.setBlock(blockStatus);
-        return userMapper.toBlockRes(userRepository.save(user));
-    }
 
     @Override
     public String activeUser(ActiveUserReq req) {
         User user = userRepository.findByEmail(req.getEmail())
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy người dùng với email: " + req.getEmail()));
-        if (user.isEnabled()) {
+        if (user.getEnabled()) {
             return "Tài khoản đã được kích hoạt trước đó.";
         }
         if (user.getOtpCode() == null || !user.getOtpCode().equals(req.getOtp())) {
             throw new RuntimeException("Mã OTP không chính xác");
         }
 
-        if (user.getOtpExpiration().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("Mã OTP đã hết hạn");
+        if (user.getOtpExpiration() == null || user.getOtpExpiration().isBefore(LocalDateTime.now())) {
+            String newOtp = String.valueOf((int) ((Math.random() * 900000) + 100000));
+            LocalDateTime newExpiration = LocalDateTime.now().plusMinutes(5);
+            user.setOtpCode(newOtp);
+            user.setOtpExpiration(newExpiration);
+            userRepository.save(user);
+            mailService.sendOtpMail(user.getEmail(), newOtp);
+
+            throw new RuntimeException("Mã OTP đã hết hạn! Hệ thống đã tự động gửi mã OTP mới về email của bạn.");
         }
         user.setEnabled(true);
         user.setOtpCode(null);
@@ -128,4 +123,6 @@ public class AuthServiceImpl implements IAuthService {
         userRepository.save(user);
         return "Kích hoạt tài khoản thành công! Bạn có thể đăng nhập ngay bây giờ.";
     }
+
+
 }

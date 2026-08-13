@@ -11,17 +11,17 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/profile")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class ProfileController {
     private final IUserService userService;
-    @GetMapping
+    @GetMapping("/profile")
     public ResponseEntity<?> getProfile(@AuthenticationPrincipal CustomUserDetails userDetails) {
 
         return ResponseEntity.ok(userService.findById(userDetails.getUser().getId()));
     }
 
-    @PutMapping
+    @PutMapping("/profile")
     public ResponseEntity<?> updateProfile(@AuthenticationPrincipal CustomUserDetails userDetails,
                                            @Valid @ModelAttribute ProfileUpdateReq req) {
 

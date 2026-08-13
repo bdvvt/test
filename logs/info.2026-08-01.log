@@ -458,3 +458,5 @@
 2026-08-01 15:38:55.228 [http-nio-8080-exec-1] INFO  c.e.test.controllers.AuthController - User registered successfully: nhanvien10
 2026-08-01 15:40:47.279 [http-nio-8080-exec-6] INFO  c.e.test.controllers.AuthController - User registered successfully: nhanvien11
 2026-08-01 15:42:09.373 [http-nio-8080-exec-8] INFO  c.e.test.controllers.AuthController - Attempting login for user: nhanvien11
+2026-08-01 15:43:12.211 [http-nio-8080-exec-4] INFO  c.e.test.controllers.AuthController - Attempting activation for email: bviet806@gmail.com
+2026-08-01 15:43:24.931 [http-nio-8080-exec-6] INFO  c.e.test.controllers.AuthController - Attempting login for user: nhanvien11

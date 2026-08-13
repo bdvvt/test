@@ -36,7 +36,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginReq req) {
-        log.info("Attempting login for user: {}", req.getUsername());
+        log.info("Attempting login for user: {}", req.getUsernameOrEmail());
         return ResponseEntity.ok()
                 .body(
                         ApiResponse.builder()
@@ -47,16 +47,7 @@ public class AuthController {
                 );
     }
 
-    @PutMapping("/{id}/block")
-    public ResponseEntity<?> toggleBlockUser(@Valid @PathVariable Long id, @RequestParam("status") boolean status) {
-        return ResponseEntity.ok(
-                ApiResponse.builder()
-                        .code(200)
-                        .message("Cập nhật trạng thái khóa tài khoản thành công")
-                        .data(authService.toggleBlockUser(id, status))
-                        .build()
-        );
-    }
+
 
     @PostMapping("/active-user")
     public ResponseEntity<?> activeUser(@Valid @RequestBody ActiveUserReq req) {

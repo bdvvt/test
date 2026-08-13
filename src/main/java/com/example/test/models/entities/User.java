@@ -1,11 +1,13 @@
 package com.example.test.models.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,7 +31,7 @@ public class User {
     @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "phone_number")
@@ -61,7 +63,7 @@ public class User {
     private Organization organization;
 
     @Column(name = "enabled")
-    private boolean enabled = false;
+    private Boolean enabled = false;
 
     @Column(name = "otp_code")
     private String otpCode;
@@ -69,4 +71,7 @@ public class User {
     @Column(name = "otp_expiration")
     private LocalDateTime otpExpiration;
 
+    @ManyToMany(mappedBy = "managers")
+    @JsonIgnore
+    private List<Department> managedDepartments;
 }

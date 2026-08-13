@@ -15,6 +15,9 @@ public class UploadService {
     private final Cloudinary cloudinary;
 
     public String upload(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            return null;
+        }
         try {
             String originalFilename = file.getOriginalFilename();
 

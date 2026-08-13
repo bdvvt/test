@@ -23,6 +23,7 @@ public class Role {
     private String roleName = "ROLE_USER";
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private List<User> users;
 
     @ManyToMany(fetch = FetchType.EAGER)

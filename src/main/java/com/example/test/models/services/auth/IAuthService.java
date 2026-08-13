@@ -11,6 +11,6 @@ import com.example.test.models.dto.res.UserRes;
 public interface IAuthService {
     void register(RegisterReq req);
     LoginRes login(LoginReq req);
-    BlockRes toggleBlockUser(Long id, boolean status);
     String activeUser(ActiveUserReq req);
+
 }

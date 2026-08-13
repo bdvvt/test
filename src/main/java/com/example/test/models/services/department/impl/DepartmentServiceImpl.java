@@ -1,4 +1,4 @@
-package com.example.test.models.services.department.impl;
+package com.example.test.models.services.impl;
 
 import com.example.test.exceptions.NotFoundException;
 import com.example.test.models.dto.req.DepartmentReq;
@@ -11,7 +11,7 @@ import com.example.test.models.entities.Role;
 import com.example.test.models.entities.User;
 import com.example.test.models.mappers.DepartmentMapper;
 import com.example.test.models.repositories.IDepartmentRepository;
-import com.example.test.models.services.department.IDepartmentService;
+import com.example.test.models.services.IDepartmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class DepartmentServiceImpl implements IDepartmentService {
     @Override
     public void deleteDepartment(Long id) {
         log.info("Deleting department record with ID: {}", id);
-        Department deleteDepartment = findDepartment(id);
+        Department deleteDepartment = departmentRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
         departmentRepository.delete(deleteDepartment);
     }
 
@@ -50,21 +50,16 @@ public class DepartmentServiceImpl implements IDepartmentService {
 
     @Override
     public DepartmentRes findById(Long id) {
-        Department department = findDepartment(id);
+        Department department = departmentRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
         return departmentMapper.toDto(department);
     }
 
     @Override
     public DepartmentRes updateDepartment(Long id, DepartmentReq req) {
-        Department updateDepartment = findDepartment(id);
+        Department updateDepartment = departmentRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
         log.info("Updating department record with ID: {}", id);
         departmentMapper.updateDepartmentFromReq(req, updateDepartment);
         return departmentMapper.toDto(departmentRepository.save(updateDepartment));
-    }
-
-    private Department findDepartment(Long id) {
-        return departmentRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Not found id " + id));
     }
 
 

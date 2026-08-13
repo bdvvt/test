@@ -1,10 +1,7 @@
 package com.example.test.models.mappers;
 
-import com.example.test.models.dto.req.DepartmentReq;
 import com.example.test.models.dto.req.OrganizationReq;
-import com.example.test.models.dto.res.DepartmentRes;
 import com.example.test.models.dto.res.OrganizationRes;
-import com.example.test.models.entities.Department;
 import com.example.test.models.entities.Organization;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

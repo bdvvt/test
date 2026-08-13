@@ -1,7 +1,7 @@
-package com.example.duanlon2.security.utils;
+package com.example.test.security.utils;
 
-import com.example.duanlon2.models.entities.User;
-import com.example.duanlon2.security.principal.CustomUserDetails;
+import com.example.test.models.entities.User;
+import com.example.test.security.principal.CustomUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

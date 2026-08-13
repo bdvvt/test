@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LoginReq {
     @NotBlank(message = "username must be not empty")
-    private String username;
+    private String usernameOrEmail;;
 
     @NotBlank(message = "password must be not empty")
     private String password;

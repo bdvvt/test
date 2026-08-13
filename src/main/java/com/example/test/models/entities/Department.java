@@ -33,4 +33,12 @@ public class Department {
     @ManyToOne
     @JoinColumn(name = "organization_id")
     private Organization organization;
+
+    @ManyToMany
+    @JoinTable(
+            name = "department_managers",
+            joinColumns = @JoinColumn(name = "department_id"),
+            inverseJoinColumns = @JoinColumn(name = "member_id")
+    )
+    private List<User> managers;
 }
