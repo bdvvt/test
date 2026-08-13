@@ -38,7 +38,7 @@ public class OrganizationServiceImpl implements IOrganizationService {
     @Override
     public void deleteOrganization(Long id) {
         log.info("Deleting organization record with ID: {}", id);
-        Organization deleteOrganization = organizationRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
+        Organization deleteOrganization = findOrganization(id);
         organizationRepository.delete(deleteOrganization);
     }
 
@@ -50,15 +50,20 @@ public class OrganizationServiceImpl implements IOrganizationService {
 
     @Override
     public OrganizationRes findById(Long id) {
-        Organization organization = organizationRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
+        Organization organization = findOrganization(id);
         return organizationMapper.toDto(organization);
     }
 
     @Override
     public OrganizationRes updateOrganization(Long id, OrganizationReq req) {
-        Organization updateOrganization = organizationRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
+        Organization updateOrganization = findOrganization(id);
         log.info("Updating organization record with ID: {}", id);
         organizationMapper.updateOrganizationFromReq(req, updateOrganization);
         return organizationMapper.toDto(organizationRepository.save(updateOrganization));
+    }
+
+    private Organization findOrganization(Long id) {
+        return organizationRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found id " + id));
     }
 }

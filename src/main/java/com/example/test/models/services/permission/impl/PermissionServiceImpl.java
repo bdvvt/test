@@ -26,11 +26,7 @@ public class PermissionServiceImpl implements IPermissionService {
 
     @Override
     public PermissionRes createPermission(PermissionReq req) {
-        String formattedPermissionName = req.getName();
-        if (formattedPermissionName != null && !formattedPermissionName.trim().isEmpty()) {
-            formattedPermissionName = formattedPermissionName.trim().toUpperCase();
-
-        }
+        String formattedPermissionName = normalizePermissionName(req.getName());
         if (permissionRepository.existsByName(formattedPermissionName)) {
             throw new RuntimeException("Permission đã tồn tại");
         }
@@ -42,7 +38,7 @@ public class PermissionServiceImpl implements IPermissionService {
 
     @Override
     public void deletePermission(Long id) {
-        Permission deletePermission = permissionRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
+        Permission deletePermission = findPermission(id);
         log.info("Deleting permission record with ID: {}", id);
         permissionRepository.delete(deletePermission);
     }
@@ -55,13 +51,22 @@ public class PermissionServiceImpl implements IPermissionService {
 
     @Override
     public PermissionRes updatePermission(Long id, PermissionReq req) {
-        Permission updatePermission = permissionRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
+        Permission updatePermission = findPermission(id);
         log.info("Updating permission record with ID: {}", id);
         permissionMapper.updatePermissionFromReq(req, updatePermission);
-        if (updatePermission.getName() != null && !updatePermission.getName().trim().isEmpty()) {
-            String formattedPermissionName = updatePermission.getName().trim().toUpperCase();
-            updatePermission.setName(formattedPermissionName);
-        }
+        updatePermission.setName(normalizePermissionName(updatePermission.getName()));
         return permissionMapper.toDto(permissionRepository.save(updatePermission));
+    }
+
+    private String normalizePermissionName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return name;
+        }
+        return name.trim().toUpperCase();
+    }
+
+    private Permission findPermission(Long id) {
+        return permissionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found id " + id));
     }
 }

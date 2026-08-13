@@ -38,7 +38,7 @@ public class DepartmentServiceImpl implements IDepartmentService {
     @Override
     public void deleteDepartment(Long id) {
         log.info("Deleting department record with ID: {}", id);
-        Department deleteDepartment = departmentRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
+        Department deleteDepartment = findDepartment(id);
         departmentRepository.delete(deleteDepartment);
     }
 
@@ -50,16 +50,21 @@ public class DepartmentServiceImpl implements IDepartmentService {
 
     @Override
     public DepartmentRes findById(Long id) {
-        Department department = departmentRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
+        Department department = findDepartment(id);
         return departmentMapper.toDto(department);
     }
 
     @Override
     public DepartmentRes updateDepartment(Long id, DepartmentReq req) {
-        Department updateDepartment = departmentRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
+        Department updateDepartment = findDepartment(id);
         log.info("Updating department record with ID: {}", id);
         departmentMapper.updateDepartmentFromReq(req, updateDepartment);
         return departmentMapper.toDto(departmentRepository.save(updateDepartment));
+    }
+
+    private Department findDepartment(Long id) {
+        return departmentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found id " + id));
     }
 
 
