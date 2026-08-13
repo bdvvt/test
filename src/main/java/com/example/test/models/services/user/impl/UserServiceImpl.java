@@ -47,17 +47,20 @@ public class UserServiceImpl implements IUserService, IUserOrganizationService, 
 
     @Override
     public UserRes createUser(UserReq req) {
-        log.info("Creating new user entity to database for full name: {}", req.getFullName());
-        User user = prepareNewUser(
-                userMapper.toEntity(req),
-                req.getUsername(),
-                req.getEmail(),
-                req.getPassword(),
-                req.getAvatarFile(),
+        validateNewUser(req.getUsername(), req.getEmail());
+
+        UserRelations relations = loadUserRelations(
                 req.getOrganizationId(),
                 req.getDepartmentId(),
                 req.getRoles()
         );
+
+        log.info("Creating new user entity to database for full name: {}", req.getFullName());
+        User user = userMapper.toEntity(req);
+        applyPassword(user, req.getPassword());
+        applyAvatar(user, req.getAvatarFile());
+        applyUserRelations(user, relations);
+
         return userMapper.toDto(userRepository.save(user));
     }
 
@@ -81,15 +84,18 @@ public class UserServiceImpl implements IUserService, IUserOrganizationService, 
     public UserRes updateUser(Long id, UserReq req) {
         User user = findUserById(id);
         log.info("Updating user record with ID: {}", id);
-        userMapper.updateUserFromReq(req, user);
-        prepareUserUpdate(
-                user,
-                req.getPassword(),
-                req.getAvatarFile(),
+
+        UserRelations relations = loadUserRelations(
                 req.getOrganizationId(),
                 req.getDepartmentId(),
                 req.getRoles()
         );
+
+        userMapper.updateUserFromReq(req, user);
+        applyPassword(user, req.getPassword());
+        applyAvatar(user, req.getAvatarFile());
+        applyUserRelations(user, relations);
+
         return userMapper.toDto(userRepository.save(user));
     }
 
@@ -97,7 +103,7 @@ public class UserServiceImpl implements IUserService, IUserOrganizationService, 
     public UserRes updateProfile(Long id, ProfileUpdateReq req) {
         User user = findUserById(id);
         log.info("Updating profile record with ID: {}", id);
-        applyAvatar(user, req.getAvatarFile());
+        user.setAvatarUrl(uploadService.upload(req.getAvatarFile()));
         userMapper.updateProfileFromReq(req, user);
         return userMapper.toDto(userRepository.save(user));
     }
@@ -114,17 +120,20 @@ public class UserServiceImpl implements IUserService, IUserOrganizationService, 
             Long orgId,
             UserOrganizationReq req
     ) {
-        log.info("Creating new user entity to database for full name: {}", req.getFullName());
-        User user = prepareNewUser(
-                userMapper.toOrgEntity(req),
-                req.getUsername(),
-                req.getEmail(),
-                req.getPassword(),
-                req.getAvatarFile(),
+        validateNewUser(req.getUsername(), req.getEmail());
+
+        UserRelations relations = loadUserRelations(
                 orgId,
                 req.getDepartmentId(),
                 req.getRoles()
         );
+
+        log.info("Creating new user entity to database for full name: {}", req.getFullName());
+        User user = userMapper.toOrgEntity(req);
+        applyPassword(user, req.getPassword());
+        applyAvatar(user, req.getAvatarFile());
+        applyUserRelations(user, relations);
+
         return userMapper.toOrgDto(userRepository.save(user));
     }
 
@@ -136,15 +145,18 @@ public class UserServiceImpl implements IUserService, IUserOrganizationService, 
     ) {
         User user = findUserInOrganization(id, orgId);
         log.info("Updating user record with ID: {}", id);
-        userMapper.updateUserInOrgFromReq(req, user);
-        prepareUserUpdate(
-                user,
-                req.getPassword(),
-                req.getAvatarFile(),
+
+        UserRelations relations = loadUserRelations(
                 orgId,
                 req.getDepartmentId(),
                 req.getRoles()
         );
+
+        userMapper.updateUserInOrgFromReq(req, user);
+        applyPassword(user, req.getPassword());
+        applyAvatar(user, req.getAvatarFile());
+        applyUserRelations(user, relations);
+
         return userMapper.toOrgDto(userRepository.save(user));
     }
 
@@ -210,37 +222,6 @@ public class UserServiceImpl implements IUserService, IUserOrganizationService, 
 
     // ==================== Shared private helpers ====================
 
-    private User prepareNewUser(
-            User user,
-            String username,
-            String email,
-            String password,
-            MultipartFile avatarFile,
-            Long organizationId,
-            Long departmentId,
-            List<Long> roleIds
-    ) {
-        validateNewUser(username, email);
-        applyPassword(user, password);
-        applyAvatar(user, avatarFile);
-        applyUserRelations(user, loadUserRelations(organizationId, departmentId, roleIds));
-        return user;
-    }
-
-    private User prepareUserUpdate(
-            User user,
-            String password,
-            MultipartFile avatarFile,
-            Long organizationId,
-            Long departmentId,
-            List<Long> roleIds
-    ) {
-        applyPassword(user, password);
-        applyAvatar(user, avatarFile);
-        applyUserRelations(user, loadUserRelations(organizationId, departmentId, roleIds));
-        return user;
-    }
-
     private void validateNewUser(String username, String email) {
         if (userRepository.existsByUsername(username)) {
             throw new RuntimeException("Tên đăng nhập đã được sử dụng");
@@ -255,8 +236,15 @@ public class UserServiceImpl implements IUserService, IUserOrganizationService, 
             Long departmentId,
             List<Long> roleIds
     ) {
-        Organization organization = findOrganization(organizationId);
-        Department department = findDepartment(departmentId);
+        Organization organization = organizationRepository.findById(organizationId)
+                .orElseThrow(() -> new NotFoundException(
+                        "Không tìm thấy tổ chức với ID: " + organizationId
+                ));
+
+        Department department = departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new NotFoundException(
+                        "Không tìm thấy bộ phận với ID: " + departmentId
+                ));
 
         List<Role> roles = roleRepository.findAllByIdIn(roleIds);
         return new UserRelations(organization, department, roles);

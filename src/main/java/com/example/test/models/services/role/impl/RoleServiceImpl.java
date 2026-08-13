@@ -27,11 +27,17 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public RoleRes createRole(RoleReq req) {
-        String formattedRoleName = normalizeRoleName(req.getRoleName());
+        String formattedRoleName = req.getRoleName();
+        if (formattedRoleName != null && !formattedRoleName.trim().isEmpty()) {
+            formattedRoleName = formattedRoleName.trim().toUpperCase();
+            if (!formattedRoleName.startsWith("ROLE_")) {
+                formattedRoleName = "ROLE_" + formattedRoleName;
+            }
+        }
         if (roleRepository.existsByRoleName(formattedRoleName)) {
             throw new RuntimeException("Role đã tồn tại");
         }
-        List<Permission> permissions = loadPermissions(req.getPermissions());
+        List<Permission> permissions = permissionRepository.findAllByIdIn(req.getPermissions());
         log.info("Creating new role entity to database for role name: {}", formattedRoleName);
         Role role = roleMapper.toEntity(req);
         role.setPermissions(new HashSet<>(permissions));
@@ -47,7 +53,7 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public void deleteRole(Long id) {
-        Role deleteRole = findRole(id);
+        Role deleteRole = roleRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
         log.info("Deleting role record with ID: {}", id);
         for (User user : deleteRole.getUsers()) {
             user.getRoles().remove(deleteRole);
@@ -58,30 +64,19 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public RoleRes updateRole(Long id, RoleReq req) {
-        Role updateRole = findRole(id);
-        String formattedRoleName = normalizeRoleName(req.getRoleName());
-        List<Permission> permissions = loadPermissions(req.getPermissions());
+        Role updateRole = roleRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
+        String formattedRoleName = req.getRoleName();
+        if (formattedRoleName != null && !formattedRoleName.trim().isEmpty()) {
+            formattedRoleName = formattedRoleName.trim().toUpperCase();
+            if (!formattedRoleName.startsWith("ROLE_")) {
+                formattedRoleName = "ROLE_" + formattedRoleName;
+            }
+        }
+        List<Permission> permissions = permissionRepository.findAllByIdIn(req.getPermissions());
         log.info("Updating role record with ID: {}", id);
         roleMapper.updateRoleFromReq(req, updateRole);
         updateRole.setRoleName(formattedRoleName);
         updateRole.setPermissions(new HashSet<>(permissions));
         return roleMapper.toDto(roleRepository.save(updateRole));
-    }
-
-    private String normalizeRoleName(String roleName) {
-        if (roleName == null || roleName.trim().isEmpty()) {
-            return roleName;
-        }
-        String normalized = roleName.trim().toUpperCase();
-        return normalized.startsWith("ROLE_") ? normalized : "ROLE_" + normalized;
-    }
-
-    private List<Permission> loadPermissions(List<Long> permissionIds) {
-        return permissionRepository.findAllByIdIn(permissionIds);
-    }
-
-    private Role findRole(Long id) {
-        return roleRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Not found id " + id));
     }
 }
