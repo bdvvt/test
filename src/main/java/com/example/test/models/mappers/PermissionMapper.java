@@ -23,7 +23,21 @@ public interface PermissionMapper {
     @Mapping(target = "departments", ignore = true)
     void updatePermissionFromReq(PermissionReq req, @MappingTarget Permission permission);
 
-    PermissionRes toDto(Permission permission) ;
+    default PermissionRes toDto(Permission permission) {
+        Set<Long> departmentIds = permission.getDepartments() == null
+                ? Set.of()
+                : permission.getDepartments().stream()
+                .map(department -> department.getId())
+                .collect(Collectors.toSet());
 
-   List<PermissionRes> toDtoList(List<Permission> permissions);
+        return PermissionRes.builder()
+                .id(permission.getId())
+                .name(permission.getName())
+                .departmentIds(departmentIds)
+                .build();
+    }
+
+    default List<PermissionRes> toDtoList(List<Permission> permissions) {
+        return permissions.stream().map(this::toDto).toList();
+    }
 }
