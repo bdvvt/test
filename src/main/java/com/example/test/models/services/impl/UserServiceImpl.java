@@ -112,16 +112,6 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<DepartmentRes> getManagedDepartmentsByMember(Long memberId) {
-        if (!userRepository.existsById(memberId)) {
-            throw new NotFoundException("Not found member id " + memberId);
-        }
-        return departmentMapper.toDtoList(
-                departmentRepository.findManagedDepartmentsByMemberId(memberId)
-        );
-    }
-
-    @Override
     public UserRes updateProfile(Long id, ProfileUpdateReq req) {
         User updateProfile = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
         log.info("Updating profile record with ID: {}", id);

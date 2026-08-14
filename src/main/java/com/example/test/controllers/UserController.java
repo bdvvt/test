@@ -98,14 +98,6 @@ public class UserController {
         );
     }
 
-    @GetMapping("/{member_id}/managed_departments")
-    public ResponseEntity<?> getManagedDepartments(@PathVariable("member_id") Long memberId) {
-        return ResponseEntity.ok(ApiResponse.builder()
-                .code(200)
-                .message("Lấy danh sách phòng ban do nhân sự quản lý thành công")
-                .data(userService.getManagedDepartmentsByMember(memberId))
-                .build());
-    }
 
 
 }

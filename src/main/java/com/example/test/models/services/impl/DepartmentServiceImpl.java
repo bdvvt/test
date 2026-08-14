@@ -26,7 +26,7 @@ public class DepartmentServiceImpl implements IDepartmentService {
     private final IDepartmentRepository departmentRepository;
     private final DepartmentMapper departmentMapper;
     @Override
-    public DepartmentRes createDepartment(DepartmentReq req) {
+    public DepartmentRes createDepartment(Long orgId,DepartmentReq req) {
         if (departmentRepository.existsByDepartmentName(req.getDepartmentName())) {
             throw new RuntimeException("Tên phòng ban đã được sử dụng");
         }
@@ -36,26 +36,26 @@ public class DepartmentServiceImpl implements IDepartmentService {
     }
 
     @Override
-    public void deleteDepartment(Long id) {
+    public void deleteDepartment(Long orgId,Long id) {
         log.info("Deleting department record with ID: {}", id);
         Department deleteDepartment = departmentRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
         departmentRepository.delete(deleteDepartment);
     }
 
     @Override
-    public List<DepartmentRes> findAll() {
+    public List<DepartmentRes> findAll(Long orgId) {
         List<Department> departments = departmentRepository.findAll();
         return departmentMapper.toDtoList(departments);
     }
 
     @Override
-    public DepartmentRes findById(Long id) {
+    public DepartmentRes findById(Long orgId,Long id) {
         Department department = departmentRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
         return departmentMapper.toDto(department);
     }
 
     @Override
-    public DepartmentRes updateDepartment(Long id, DepartmentReq req) {
+    public DepartmentRes updateDepartment(Long orgId,Long id, DepartmentReq req) {
         Department updateDepartment = departmentRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
         log.info("Updating department record with ID: {}", id);
         departmentMapper.updateDepartmentFromReq(req, updateDepartment);
