@@ -20,34 +20,43 @@ import org.springframework.web.bind.annotation.*;
 public class UserDepartmentController {
     private final IUserDepartmentService userDepartmentService;
 
-    @GetMapping("/{id}/department/{deptId}/organization/{orgId}")
+    @GetMapping("/{id}/department/{deptId}")
     @PreAuthorize("@userDepartmentPermissionChecker.canRead(authentication, #deptId)")
-    public ResponseEntity<?> findById(@PathVariable Long id, @PathVariable Long orgId,
+    public ResponseEntity<?> findById(@AuthenticationPrincipal CustomUserDetails currentUser,
+                                      @PathVariable Long id,
                                       @PathVariable Long deptId) {
+        Long orgId = currentUser.getUser().getOrganization().getId();
         return ResponseEntity.ok(ApiResponse.builder().message("Get User Successfully").code(200)
                 .data(userDepartmentService.findByUserInDepartment(id, orgId, deptId)).build());
     }
 
-    @DeleteMapping("/{id}/department/{deptId}/organization/{orgId}")
+    @DeleteMapping("/{id}/department/{deptId}")
     @PreAuthorize("@userDepartmentPermissionChecker.canDelete(authentication, #deptId)")
-    public ResponseEntity<?> dropout(@PathVariable Long id, @PathVariable Long orgId,
+    public ResponseEntity<?> dropout(@AuthenticationPrincipal CustomUserDetails currentUser,
+                                     @PathVariable Long id,
                                      @PathVariable Long deptId) {
+        Long orgId = currentUser.getUser().getOrganization().getId();
         userDepartmentService.deleteUserInDepartment(id, orgId, deptId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ApiResponse.builder()
                 .message("Deleted User Successfully").code(204).data(null).build());
     }
 
-    @GetMapping("/department/{deptId}/organization/{orgId}")
+    @GetMapping("/department/{deptId}")
     @PreAuthorize("@userDepartmentPermissionChecker.canRead(authentication, #deptId)")
-    public ResponseEntity<?> findAll(@PathVariable Long orgId, @PathVariable Long deptId) {
+    public ResponseEntity<?> findAll(@AuthenticationPrincipal CustomUserDetails currentUser,
+                                     @PathVariable Long deptId) {
+        Long orgId = currentUser.getUser().getOrganization().getId();
         return ResponseEntity.ok(ApiResponse.builder().message("Get User Successfully").code(200)
                 .data(userDepartmentService.listUsersInDepartment(orgId, deptId)).build());
     }
 
-    @PutMapping("/{id}/department/{deptId}/organization/{orgId}/roles")
+    @PutMapping("/{id}/department/{deptId}/roles")
     @PreAuthorize("@userDepartmentPermissionChecker.canUpdate(authentication, #deptId)")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @PathVariable Long orgId,
-                                        @PathVariable Long deptId, @Valid @ModelAttribute UpdateRoleUser req) {
+    public ResponseEntity<?> updateUser(@AuthenticationPrincipal CustomUserDetails currentUser,
+                                        @PathVariable Long id,
+                                        @PathVariable Long deptId,
+                                        @Valid @ModelAttribute UpdateRoleUser req) {
+        Long orgId = currentUser.getUser().getOrganization().getId();
         return ResponseEntity.ok(ApiResponse.builder().message("Updated User Successfully").code(200)
                 .data(userDepartmentService.updateUserRoleInDept(id, orgId, deptId, req)).build());
     }
