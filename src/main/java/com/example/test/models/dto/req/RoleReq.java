@@ -17,4 +17,5 @@ public class RoleReq {
     private String roleName ;
 
     private Set<Long> permissions;
+    private Long departmentId;
 }

@@ -14,13 +14,16 @@ public interface RoleMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "users", ignore = true)
     @Mapping(target = "permissions", ignore = true)
+    @Mapping(target = "department", ignore = true)
     Role toEntity(RoleReq req);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "users", ignore = true)
     @Mapping(target = "permissions", ignore = true)
+    @Mapping(target = "department", ignore = true)
     void updateRoleFromReq(RoleReq req, @MappingTarget Role role);
 
+    @Mapping(target = "departmentId", source = "department.id")
     RoleRes toDto(Role role);
 
     List<RoleRes> toDtoList(List<Role> roles);

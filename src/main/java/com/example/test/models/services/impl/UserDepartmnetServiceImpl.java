@@ -6,11 +6,9 @@ import com.example.test.models.dto.res.UserRes;
 import com.example.test.models.entities.Department;
 import com.example.test.models.entities.Role;
 import com.example.test.models.entities.User;
-import com.example.test.models.entities.UserDepartmentRole;
 import com.example.test.models.mappers.UserMapper;
 import com.example.test.models.repositories.IDepartmentRepository;
 import com.example.test.models.repositories.IRoleRepository;
-import com.example.test.models.repositories.IUserDepartmentRoleRepository;
 import com.example.test.models.repositories.IUserRepository;
 import com.example.test.models.services.IUserDepartmentService;
 import com.example.test.models.services.helper.UserDepartmentPermissionChecker;
@@ -26,7 +24,6 @@ public class UserDepartmnetServiceImpl implements IUserDepartmentService {
     private final IUserRepository userRepository;
     private final IDepartmentRepository departmentRepository;
     private final IRoleRepository roleRepository;
-    private final IUserDepartmentRoleRepository scopeRepository;
     private final UserMapper userMapper;
 
     @Override
@@ -57,9 +54,6 @@ public class UserDepartmnetServiceImpl implements IUserDepartmentService {
                 .orElseThrow(() -> new NotFoundException("Department không tồn tại"));
         List<Role> roles = roleRepository.findAllByIdIn(req.getRoles());
         user.setRoles(new HashSet<>(roles));
-        for (Role role : roles) {
-            scopeRepository.save(UserDepartmentRole.builder().user(user).department(department).role(role).build());
-        }
         return userMapper.toDto(userRepository.save(user));
     }
 }

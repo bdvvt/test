@@ -14,5 +14,6 @@ import java.util.Set;
 public class RoleRes {
     private Long id;
     private String roleName;
+    private Long departmentId;
     private Set<PermissionRes> permissions;
 }

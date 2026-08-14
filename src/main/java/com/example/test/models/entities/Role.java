@@ -22,6 +22,10 @@ public class Role {
     @Column(name = "role_name")
     private String roleName = "ROLE_USER";
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private Department department;
+
     @ManyToMany(mappedBy = "roles")
     @JsonIgnore
     private List<User> users;

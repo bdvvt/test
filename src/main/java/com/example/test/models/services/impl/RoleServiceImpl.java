@@ -3,10 +3,12 @@ package com.example.test.models.services.impl;
 import com.example.test.exceptions.NotFoundException;
 import com.example.test.models.dto.req.RoleReq;
 import com.example.test.models.dto.res.RoleRes;
+import com.example.test.models.entities.Department;
 import com.example.test.models.entities.Permission;
 import com.example.test.models.entities.Role;
 import com.example.test.models.entities.User;
 import com.example.test.models.mappers.RoleMapper;
+import com.example.test.models.repositories.IDepartmentRepository;
 import com.example.test.models.repositories.IPermissionRepository;
 import com.example.test.models.repositories.IRoleRepository;
 import com.example.test.models.services.IRoleService;
@@ -24,6 +26,7 @@ public class RoleServiceImpl implements IRoleService {
     private final IRoleRepository roleRepository;
     private final RoleMapper roleMapper;
     private final IPermissionRepository permissionRepository;
+    private final IDepartmentRepository departmentRepository;
 
     @Override
     public RoleRes createRole(RoleReq req) {
@@ -38,10 +41,12 @@ public class RoleServiceImpl implements IRoleService {
             throw new RuntimeException("Role đã tồn tại");
         }
         List<Permission> permissions = permissionRepository.findAllByIdIn(req.getPermissions());
+        Department department = findDepartment(req.getDepartmentId());
         log.info("Creating new role entity to database for role name: {}", formattedRoleName);
         Role role = roleMapper.toEntity(req);
         role.setPermissions(new HashSet<>(permissions));
         role.setRoleName(formattedRoleName);
+        role.setDepartment(department);
         return roleMapper.toDto(roleRepository.save(role));
     }
 
@@ -73,10 +78,20 @@ public class RoleServiceImpl implements IRoleService {
             }
         }
         List<Permission> permissions = permissionRepository.findAllByIdIn(req.getPermissions());
+        Department department = findDepartment(req.getDepartmentId());
         log.info("Updating role record with ID: {}", id);
         roleMapper.updateRoleFromReq(req, updateRole);
         updateRole.setRoleName(formattedRoleName);
         updateRole.setPermissions(new HashSet<>(permissions));
+        updateRole.setDepartment(department);
         return roleMapper.toDto(roleRepository.save(updateRole));
+    }
+
+    private Department findDepartment(Long departmentId) {
+        if (departmentId == null) {
+            return null;
+        }
+        return departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy department với ID: " + departmentId));
     }
 }
