@@ -28,12 +28,9 @@ public class UserDepartmnetServiceImpl implements IUserDepartmentService {
     private final IRoleRepository roleRepository;
     private final IUserDepartmentRoleRepository scopeRepository;
     private final UserMapper userMapper;
-    private final SecurityUtils securityUtils;
-    private final UserDepartmentPermissionChecker permissionChecker;
 
     @Override
     public UserRes findByUserInDepartment(Long id, Long orgId, Long deptId) {
-        permissionChecker.canRead(securityUtils.getCurrentUser().getId(), deptId);
         User user = userRepository.findByIdAndOrganizationIdAndDepartmentId(id, orgId, deptId)
                 .orElseThrow(() -> new NotFoundException("User không thuộc department"));
         return userMapper.toDto(user);
@@ -41,13 +38,11 @@ public class UserDepartmnetServiceImpl implements IUserDepartmentService {
 
     @Override
     public List<UserRes> listUsersInDepartment(Long orgId, Long deptId) {
-        permissionChecker.canRead(securityUtils.getCurrentUser().getId(), deptId);
         return userMapper.toDtoList(userRepository.findAllByOrganizationIdAndDepartmentId(orgId, deptId));
     }
 
     @Override
     public void deleteUserInDepartment(Long id, Long orgId, Long deptId) {
-        permissionChecker.canDelete(securityUtils.getCurrentUser().getId(), deptId);
         User user = userRepository.findByIdAndOrganizationIdAndDepartmentId(id, orgId, deptId)
                 .orElseThrow(() -> new NotFoundException("User không thuộc department"));
         user.setDepartment(null);
@@ -56,7 +51,6 @@ public class UserDepartmnetServiceImpl implements IUserDepartmentService {
 
     @Override
     public UserRes updateUserRoleInDept(Long id, Long orgId, Long deptId, UpdateRoleUser req) {
-        permissionChecker.canUpdate(securityUtils.getCurrentUser().getId(), deptId);
         User user = userRepository.findByIdAndOrganizationIdAndDepartmentId(id, orgId, deptId)
                 .orElseThrow(() -> new NotFoundException("User không thuộc department"));
         Department department = departmentRepository.findById(deptId)
