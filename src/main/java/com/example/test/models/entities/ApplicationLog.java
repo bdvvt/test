@@ -30,13 +30,11 @@ public class ApplicationLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 30)
+        @Column(length = 30)
     private String level;
-
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String message;
-
-    @Column(nullable = false, length = 150)
+    @Column(length = 150)
     private String service;
 
     @Column(nullable = false, length = 100)
@@ -48,8 +46,18 @@ public class ApplicationLog {
     @Column(nullable = false, length = 255)
     private String endpoint;
 
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
     @Column(name = "user_id")
     private Long userId;
+
+    @Column(name = "organization_id")
+    private Long organizationId;
+
+    @Column(name = "department_id")
+    private Long departmentId;
+
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
