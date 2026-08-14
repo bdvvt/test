@@ -10,6 +10,6 @@ import java.util.Set;
 
 @Repository
 public interface IPermissionRepository extends JpaRepository<Permission, Long> {
-    boolean existsByNameAndDepartmentId(String name, Long departmentId);
+    boolean existsByName(String name);
     List<Permission> findAllByIdIn(Set<Long> id);
 }

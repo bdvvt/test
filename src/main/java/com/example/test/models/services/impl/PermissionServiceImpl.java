@@ -5,74 +5,70 @@ import com.example.test.models.dto.req.PermissionReq;
 import com.example.test.models.dto.res.PermissionRes;
 import com.example.test.models.entities.Department;
 import com.example.test.models.entities.Permission;
-import com.example.test.models.entities.Role;
 import com.example.test.models.mappers.PermissionMapper;
 import com.example.test.models.repositories.IDepartmentRepository;
 import com.example.test.models.repositories.IPermissionRepository;
-import com.example.test.models.repositories.IRoleRepository;
 import com.example.test.models.services.IPermissionService;
-import com.example.test.models.services.IRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class PermissionServiceImpl implements IPermissionService {
     private final IPermissionRepository permissionRepository;
-    private final IRoleRepository roleRepository;
     private final PermissionMapper permissionMapper;
     private final IDepartmentRepository departmentRepository;
 
     @Override
     public PermissionRes createPermission(PermissionReq req) {
-        String formattedPermissionName = req.getName();
-        if (formattedPermissionName != null && !formattedPermissionName.trim().isEmpty()) {
-            formattedPermissionName = formattedPermissionName.trim().toUpperCase();
-
-        }
-        if (permissionRepository.existsByNameAndDepartmentId(formattedPermissionName, req.getDepartmentId())) {
+        String name = normalizeName(req.getName());
+        if (permissionRepository.existsByName(name)) {
             throw new RuntimeException("Permission đã tồn tại");
         }
-        log.info("Creating new permission entity to database for permission name: {}", formattedPermissionName);
         Permission permission = permissionMapper.toEntity(req);
-        permission.setName(formattedPermissionName);
-        permission.setDepartment(findDepartment(req.getDepartmentId()));
+        permission.setName(name);
+        permission.setDepartments(findDepartments(req.getDepartmentIds()));
         return permissionMapper.toDto(permissionRepository.save(permission));
     }
 
     @Override
     public void deletePermission(Long id) {
-        Permission deletePermission = permissionRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
-        log.info("Deleting permission record with ID: {}", id);
-        permissionRepository.delete(deletePermission);
+        Permission permission = permissionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found id " + id));
+        permissionRepository.delete(permission);
     }
 
     @Override
     public List<PermissionRes> findAll() {
-        List<Permission> permissions = permissionRepository.findAll();
-        return permissionMapper.toDtoList(permissions);
+        return permissionMapper.toDtoList(permissionRepository.findAll());
     }
 
     @Override
     public PermissionRes updatePermission(Long id, PermissionReq req) {
-        Permission updatePermission = permissionRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found id " + id));
-        log.info("Updating permission record with ID: {}", id);
-        permissionMapper.updatePermissionFromReq(req, updatePermission);
-        if (updatePermission.getName() != null && !updatePermission.getName().trim().isEmpty()) {
-            String formattedPermissionName = updatePermission.getName().trim().toUpperCase();
-            updatePermission.setName(formattedPermissionName);
-        }
-        updatePermission.setDepartment(findDepartment(req.getDepartmentId()));
-        return permissionMapper.toDto(permissionRepository.save(updatePermission));
+        Permission permission = permissionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found id " + id));
+        permissionMapper.updatePermissionFromReq(req, permission);
+        permission.setName(normalizeName(req.getName()));
+        permission.setDepartments(findDepartments(req.getDepartmentIds()));
+        return permissionMapper.toDto(permissionRepository.save(permission));
     }
 
-    private Department findDepartment(Long departmentId) {
-        if (departmentId == null) return null;
-        return departmentRepository.findById(departmentId)
-                .orElseThrow(() -> new NotFoundException("Không tìm thấy department với ID: " + departmentId));
+    private String normalizeName(String name) {
+        return name.trim().toUpperCase();
+    }
+
+    private Set<Department> findDepartments(Set<Long> departmentIds) {
+        if (departmentIds == null || departmentIds.isEmpty()) return Set.of();
+        List<Department> departments = departmentRepository.findAllById(departmentIds);
+        if (departments.size() != departmentIds.size()) {
+            throw new NotFoundException("Có departmentId không tồn tại");
+        }
+        return new HashSet<>(departments);
     }
 }

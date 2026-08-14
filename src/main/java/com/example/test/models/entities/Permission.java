@@ -4,9 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "permissions", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "department_id"}))
+@Table(name = "permissions")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,12 +18,16 @@ public class Permission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id")
-    private Department department;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "permission_departments",
+            joinColumns = @JoinColumn(name = "permission_id"),
+            inverseJoinColumns = @JoinColumn(name = "department_id")
+    )
+    private Set<Department> departments;
 
     @ManyToMany(mappedBy = "permissions")
     private List<Role> roles;

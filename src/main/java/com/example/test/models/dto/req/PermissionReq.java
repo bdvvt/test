@@ -1,10 +1,8 @@
 package com.example.test.models.dto.req;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -13,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class PermissionReq {
     @NotBlank(message = "Tên quyền không được để trống")
     private String name;
-    private Long departmentId;
+    private Set<Long> departmentIds;
 }

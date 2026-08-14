@@ -13,10 +13,10 @@ public class UserDepartmentPermissionChecker {
 
         return details.getUser().getRoles().stream()
                 .flatMap(role -> role.getPermissions().stream())
-                .filter(permissionEntity -> permissionEntity.getDepartment() != null)
                 .anyMatch(permissionEntity ->
-                        departmentId.equals(permissionEntity.getDepartment().getId())
-                        && permission.equals(permissionEntity.getName()));
+                        permission.equals(permissionEntity.getName())
+                        && permissionEntity.getDepartments().stream()
+                        .anyMatch(department -> departmentId.equals(department.getId())));
     }
 
     public boolean canRead(Authentication authentication, Long departmentId) {
