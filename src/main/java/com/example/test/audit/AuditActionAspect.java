@@ -37,10 +37,6 @@ public class AuditActionAspect {
         }
 
         HttpServletRequest request = currentRequest();
-        if (request != null && "/api/logs".equals(request.getRequestURI())) {
-            return joinPoint.proceed();
-        }
-
         Object result = joinPoint.proceed();
         User user = currentUserOrNull();
         String action = toAction(method.getName());

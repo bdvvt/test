@@ -1,7 +1,6 @@
 package com.example.test.models.services.impl;
 
-import com.example.test.models.dto.req.LogCreateReq;
-import com.example.test.models.dto.res.LogRes;
+import com.example.test.models.dto.req.AuditLogData;
 import com.example.test.models.entities.ApplicationLog;
 import com.example.test.models.entities.User;
 import com.example.test.models.mappers.ApplicationLogMapper;
@@ -20,31 +19,24 @@ public class LogServiceImpl implements ILogService {
 
     @Override
     public void recordAudit(String action, String method, String endpoint,
-                             String description, User user) {
-        LogCreateReq req = new LogCreateReq();
-        req.setLevel("INFO");
-        req.setMessage(description);
-        req.setService("API");
-        req.setAction(action);
-        req.setMethod(method);
-        req.setEndpoint(endpoint);
-        req.setDescription(description);
-        req.setUserId(user == null ? null : user.getId());
-        req.setOrganizationId(user == null || user.getOrganization() == null
-                ? null : user.getOrganization().getId());
-        req.setDepartmentId(user == null || user.getDepartment() == null
-                ? null : user.getDepartment().getId());
-        req.setTimestamp(LocalDateTime.now());
-        create(req);
-    }
+                            String description, User user) {
+        AuditLogData data = AuditLogData.builder()
+                .level("INFO")
+                .message(description)
+                .service("API")
+                .action(action)
+                .method(method)
+                .endpoint(endpoint)
+                .description(description)
+                .userId(user == null ? null : user.getId())
+                .organizationId(user == null || user.getOrganization() == null
+                        ? null : user.getOrganization().getId())
+                .departmentId(user == null || user.getDepartment() == null
+                        ? null : user.getDepartment().getId())
+                .timestamp(LocalDateTime.now())
+                .build();
 
-    @Override
-    public LogRes create(LogCreateReq req) {
-        ApplicationLog log = applicationLogMapper.toEntity(req);
-        if (log.getTimestamp() == null) {
-            log.setTimestamp(LocalDateTime.now());
-        }
-        ApplicationLog saved = logRepository.save(log);
-        return applicationLogMapper.toDto(saved);
+        ApplicationLog log = applicationLogMapper.toEntity(data);
+        logRepository.save(log);
     }
 }
