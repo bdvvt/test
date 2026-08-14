@@ -4,6 +4,7 @@ import com.example.test.exceptions.NotFoundException;
 import com.example.test.models.dto.req.UserOrganizationReq;
 import com.example.test.models.dto.req.UserReq;
 import com.example.test.models.dto.res.UserOrganizationRes;
+import com.example.test.models.dto.res.UserRes;
 import com.example.test.models.entities.Department;
 import com.example.test.models.entities.Organization;
 import com.example.test.models.entities.Role;
@@ -37,13 +38,13 @@ public class UserOrganizationServiceImpl implements IUserOrganizationService {
     private final UploadService uploadService;
 
     @Override
-    public UserOrganizationRes findByIdInOrganization(Long id, Long orgId) {
+    public UserRes findByIdInOrganization(Long id, Long orgId) {
         User user = userRepository.findByIdAndOrganizationId(id, orgId).orElseThrow(() -> new RuntimeException("không tìm thấy người dùng trong công ty"));
-        return userMapper.toOrgDto(user);
+        return userMapper.toDto(user);
     }
 
     @Override
-    public UserOrganizationRes createUserInOrganization(Long orgId, UserOrganizationReq req) {
+    public UserRes createUserInOrganization(Long orgId, UserOrganizationReq req) {
         if (userRepository.existsByUsername(req.getUsername())) {
             throw new RuntimeException("Tên đăng nhập đã được sử dụng");
         }
@@ -62,7 +63,7 @@ public class UserOrganizationServiceImpl implements IUserOrganizationService {
         user.setRoles(new HashSet<>(role));
         user.setDepartment(department);
         user.setOrganization(organization);
-        return userMapper.toOrgDto(userRepository.save(user));
+        return userMapper.toDto(userRepository.save(user));
     }
 
     @Override
@@ -73,14 +74,14 @@ public class UserOrganizationServiceImpl implements IUserOrganizationService {
     }
 
     @Override
-    public List<UserOrganizationRes> listUsersInOrganization(Long orgId) {
+    public List<UserRes> listUsersInOrganization(Long orgId) {
         log.info("Listing all users for organization ID: {}", orgId);
         List<User> users = userRepository.findAllByOrganizationId(orgId);
-        return userMapper.toOrgDtoList(users);
+        return userMapper.toDtoList(users);
     }
 
     @Override
-    public UserOrganizationRes updateUserInOrganization(Long id, Long orgId, UserOrganizationReq req) {
+    public UserRes updateUserInOrganization(Long id, Long orgId, UserOrganizationReq req) {
         User updateUser = userRepository.findByIdAndOrganizationId(id, orgId).orElseThrow(() -> new NotFoundException("Not found id " + id + " in organization " + orgId));
         log.info("Updating user record with ID: {}", id);
         Department department = departmentRepository.findById(req.getDepartmentId())
@@ -93,6 +94,6 @@ public class UserOrganizationServiceImpl implements IUserOrganizationService {
                 .ifPresent(file -> updateUser.setAvatarUrl(uploadService.upload(file)));
         updateUser.setRoles(new HashSet<>(roles));
         updateUser.setDepartment(department);
-        return userMapper.toOrgDto(userRepository.save(updateUser));
+        return userMapper.toDto(userRepository.save(updateUser));
     }
 }

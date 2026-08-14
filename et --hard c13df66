@@ -1,0 +1,10 @@
+[33m5791730[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m bdvvt
+[33m47d0ea7[m extract shared service helper methods
+[33m1e2e596[m merge user department logic into user service
+[33m00a99c3[m merge user organization logic into user service
+[33mb844271[m refactor services into domain packages
+[33mc13df66[m bdvvt
+[33me65bfe9[m bdvvt
+[33m7bc90e0[m bdvvt
+[33m414dc56[m bdvvt
+[33mbfcc8d2[m bdvvt

@@ -19,5 +19,4 @@ public interface IUserService {
     void deleteUser(Long id);
     UserRes updateProfile(Long id, ProfileUpdateReq req);
     BlockRes toggleBlockUser(Long id, BlockReq status);
-    List<DepartmentRes> getManagedDepartmentsByMember(Long memberId);
 }
