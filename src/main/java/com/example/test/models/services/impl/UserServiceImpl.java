@@ -1,10 +1,14 @@
 package com.example.test.models.services.impl;
 
 import com.example.test.exceptions.NotFoundException;
+import com.example.test.models.dto.req.BlockReq;
 import com.example.test.models.dto.req.ProfileUpdateReq;
+import com.example.test.models.dto.res.BlockRes;
+import com.example.test.models.dto.res.DepartmentRes;
 import com.example.test.models.dto.res.UserRes;
 import com.example.test.models.entities.Department;
 import com.example.test.models.entities.Organization;
+import com.example.test.models.mappers.DepartmentMapper;
 import com.example.test.models.mappers.UserMapper;
 import com.example.test.models.dto.req.UserReq;
 import com.example.test.models.entities.Role;
@@ -33,6 +37,7 @@ public class UserServiceImpl implements IUserService {
     private final PasswordEncoder passwordEncoder;
     private final IDepartmentRepository departmentRepository;
     private final UserMapper userMapper;
+    private final DepartmentMapper departmentMapper;
     private final IOrganizationRepository organizationRepository;
     private final UploadService uploadService;
 
@@ -96,6 +101,24 @@ public class UserServiceImpl implements IUserService {
         updateUser.setDepartment(department);
         updateUser.setOrganization(organization);
         return userMapper.toDto(userRepository.save(updateUser));
+    }
+
+    @Override
+    public BlockRes toggleBlockUser(Long id, BlockReq status) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found id " + id));
+        user.setBlock(status.isBlock());
+        return userMapper.toBlockRes(userRepository.save(user));
+    }
+
+    @Override
+    public List<DepartmentRes> getManagedDepartmentsByMember(Long memberId) {
+        if (!userRepository.existsById(memberId)) {
+            throw new NotFoundException("Not found member id " + memberId);
+        }
+        return departmentMapper.toDtoList(
+                departmentRepository.findManagedDepartmentsByMemberId(memberId)
+        );
     }
 
     @Override
