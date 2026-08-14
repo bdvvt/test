@@ -29,7 +29,17 @@ public class UserDepartmentPermissionChecker {
     }
 
     public boolean canRead(Authentication authentication, Long departmentId) {
-        return hasPermission(authentication, departmentId, "USER_DEPARTMENT_READ");
+        if (authentication == null
+                || !(authentication.getPrincipal() instanceof CustomUserDetails details)) {
+            return false;
+        }
+
+        Long userDepartmentId = details.getUser().getDepartment() == null
+                ? null
+                : details.getUser().getDepartment().getId();
+
+        return departmentId.equals(userDepartmentId)
+                || hasPermission(authentication, departmentId, "USER_DEPARTMENT_READ");
     }
 
     public boolean canCreate(Authentication authentication, Long departmentId) {
