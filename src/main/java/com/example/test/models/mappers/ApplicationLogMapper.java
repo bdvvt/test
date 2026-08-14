@@ -1,0 +1,15 @@
+package com.example.test.models.mappers;
+
+import com.example.test.models.dto.req.LogCreateReq;
+import com.example.test.models.dto.res.LogRes;
+import com.example.test.models.entities.ApplicationLog;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+@Mapper(componentModel = "spring")
+public interface ApplicationLogMapper {
+    @Mapping(target = "id", ignore = true)
+    ApplicationLog toEntity(LogCreateReq req);
+
+    LogRes toDto(ApplicationLog log);
+}
