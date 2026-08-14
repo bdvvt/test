@@ -12,4 +12,5 @@ import java.util.Set;
 public interface IPermissionRepository extends JpaRepository<Permission, Long> {
     boolean existsByName(String name);
     List<Permission> findAllByIdIn(Set<Long> id);
+
 }

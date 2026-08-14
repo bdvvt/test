@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.stream.DoubleStream;
 
 @Entity
 @Table(name = "departments")
@@ -41,4 +42,5 @@ public class Department {
             inverseJoinColumns = @JoinColumn(name = "member_id")
     )
     private List<User> managers;
+
 }
