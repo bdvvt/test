@@ -17,6 +17,9 @@ public class LogRes {
     private String level;
     private String message;
     private String service;
+    private String action;
+    private String method;
+    private String endpoint;
     private Long userId;
     private Map<String, Object> metadata;
     private LocalDateTime timestamp;

@@ -39,6 +39,15 @@ public class ApplicationLog {
     @Column(nullable = false, length = 150)
     private String service;
 
+    @Column(nullable = false, length = 100)
+    private String action;
+
+    @Column(nullable = false, length = 10)
+    private String method;
+
+    @Column(nullable = false, length = 255)
+    private String endpoint;
+
     @Column(name = "user_id")
     private Long userId;
 

@@ -21,6 +21,15 @@ public class LogCreateReq {
     @NotBlank
     private String service;
 
+    @NotBlank
+    private String action;
+
+    @NotBlank
+    private String method;
+
+    @NotBlank
+    private String endpoint;
+
     private Long userId;
 
     private Map<String, Object> metadata;
