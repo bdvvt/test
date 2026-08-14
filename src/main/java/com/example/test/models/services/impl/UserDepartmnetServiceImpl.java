@@ -15,6 +15,7 @@ import com.example.test.models.services.helper.UserDepartmentPermissionChecker;
 import com.example.test.security.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 
@@ -47,12 +48,23 @@ public class UserDepartmnetServiceImpl implements IUserDepartmentService {
     }
 
     @Override
+    @Transactional
     public UserRes updateUserRoleInDept(Long id, Long orgId, Long deptId, UpdateRoleUser req) {
         User user = userRepository.findByIdAndOrganizationId(id, orgId)
                 .orElseThrow(() -> new NotFoundException("User không thuộc organization"));
         departmentRepository.findById(deptId)
                 .orElseThrow(() -> new NotFoundException("Department không tồn tại"));
         List<Role> roles = roleRepository.findAllByIdIn(req.getRoles());
+        if (roles.size() != req.getRoles().size()) {
+            throw new NotFoundException("Role không tồn tại");
+        }
+        boolean roleHasDepartmentScope = roles.stream()
+                .flatMap(role -> role.getPermissions().stream())
+                .flatMap(permission -> permission.getDepartments().stream())
+                .anyMatch(department -> deptId.equals(department.getId()));
+        if (!roleHasDepartmentScope) {
+            throw new NotFoundException("Role chưa được scope cho department " + deptId);
+        }
         user.setRoles(new HashSet<>(roles));
         return userMapper.toDto(userRepository.save(user));
     }
