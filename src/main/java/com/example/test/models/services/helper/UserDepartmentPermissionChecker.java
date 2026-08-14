@@ -1,12 +1,15 @@
 package com.example.test.models.services.helper;
 
-import com.example.test.models.entities.Permission;
+import com.example.test.models.repositories.IUserDepartmentRoleRepository;
 import com.example.test.security.principal.CustomUserDetails;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class UserDepartmentPermissionChecker {
+    private final IUserDepartmentRoleRepository userDepartmentRoleRepository;
 
     public boolean hasPermission(
             Authentication authentication,
@@ -18,14 +21,11 @@ public class UserDepartmentPermissionChecker {
             return false;
         }
 
-        return details.getUser().getRoles().stream()
-                .flatMap(role -> role.getPermissions().stream())
-                .anyMatch(permission ->
-                        permissionName.equals(permission.getName())
-                                && permission.getDepartments().stream()
-                                .anyMatch(department ->
-                                        departmentId.equals(department.getId()))
-                );
+        return userDepartmentRoleRepository.hasPermission(
+                details.getUser().getId(),
+                departmentId,
+                permissionName
+        );
     }
 
     public boolean canRead(Authentication authentication, Long departmentId) {

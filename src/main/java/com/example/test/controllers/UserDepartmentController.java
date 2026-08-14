@@ -41,6 +41,22 @@ public class UserDepartmentController {
                 .message("Deleted User Successfully").code(204).data(null).build());
     }
 
+    @DeleteMapping("/{id}/department/{deptId}/roles/{roleId}")
+    @PreAuthorize("@userDepartmentPermissionChecker.canUpdate(authentication, #deptId)")
+    public ResponseEntity<?> revokeUserRole(
+            @AuthenticationPrincipal CustomUserDetails currentUser,
+            @PathVariable Long id,
+            @PathVariable Long deptId,
+            @PathVariable Long roleId) {
+        Long orgId = currentUser.getUser().getOrganization().getId();
+        userDepartmentService.revokeUserRoleInDept(id, orgId, deptId, roleId);
+        return ResponseEntity.ok(ApiResponse.builder()
+                .message("Revoked User Department Role Successfully")
+                .code(200)
+                .data(null)
+                .build());
+    }
+
     @GetMapping("/department/{deptId}")
     @PreAuthorize("@userDepartmentPermissionChecker.canRead(authentication, #deptId)")
     public ResponseEntity<?> findAll(@AuthenticationPrincipal CustomUserDetails currentUser,

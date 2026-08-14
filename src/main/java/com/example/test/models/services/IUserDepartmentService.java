@@ -9,4 +9,5 @@ public interface IUserDepartmentService {
     void deleteUserInDepartment(Long id, Long orgId, Long deptId);
     List<UserRes> listUsersInDepartment(Long orgId, Long deptId);
     UserRes updateUserRoleInDept(Long id, Long orgId, Long deptId, UpdateRoleUser req);
+    void revokeUserRoleInDept(Long id, Long orgId, Long deptId, Long roleId);
 }
