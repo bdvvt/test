@@ -48,9 +48,9 @@ public class UserDepartmnetServiceImpl implements IUserDepartmentService {
 
     @Override
     public UserRes updateUserRoleInDept(Long id, Long orgId, Long deptId, UpdateRoleUser req) {
-        User user = userRepository.findByIdAndOrganizationIdAndDepartmentId(id, orgId, deptId)
-                .orElseThrow(() -> new NotFoundException("User không thuộc department"));
-        Department department = departmentRepository.findById(deptId)
+        User user = userRepository.findByIdAndOrganizationId(id, orgId)
+                .orElseThrow(() -> new NotFoundException("User không thuộc organization"));
+        departmentRepository.findById(deptId)
                 .orElseThrow(() -> new NotFoundException("Department không tồn tại"));
         List<Role> roles = roleRepository.findAllByIdIn(req.getRoles());
         user.setRoles(new HashSet<>(roles));
