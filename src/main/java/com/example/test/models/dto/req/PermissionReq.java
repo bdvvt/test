@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class PermissionReq {
     @NotBlank(message = "Tên quyền không được để trống")
     private String name;
+    private Long departmentId;
 }

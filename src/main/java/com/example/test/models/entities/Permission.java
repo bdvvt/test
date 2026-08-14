@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "permissions")
+@Table(name = "permissions", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "department_id"}))
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,8 +17,12 @@ public class Permission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", unique = true)
-        private String name;
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private Department department;
 
     @ManyToMany(mappedBy = "permissions")
     private List<Role> roles;

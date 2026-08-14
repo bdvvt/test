@@ -1,6 +1,5 @@
 package com.example.test.models.services.helper;
 
-import com.example.test.models.entities.Role;
 import com.example.test.security.principal.CustomUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -13,11 +12,11 @@ public class UserDepartmentPermissionChecker {
         }
 
         return details.getUser().getRoles().stream()
-                .filter(role -> role.getDepartment() != null)
-                .filter(role -> departmentId.equals(role.getDepartment().getId()))
-                .anyMatch(role -> role.getPermissions().stream()
-                        .map(permissionEntity -> permissionEntity.getName())
-                        .anyMatch(permission::equals));
+                .flatMap(role -> role.getPermissions().stream())
+                .filter(permissionEntity -> permissionEntity.getDepartment() != null)
+                .anyMatch(permissionEntity ->
+                        departmentId.equals(permissionEntity.getDepartment().getId())
+                        && permission.equals(permissionEntity.getName()));
     }
 
     public boolean canRead(Authentication authentication, Long departmentId) {

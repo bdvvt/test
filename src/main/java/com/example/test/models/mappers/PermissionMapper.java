@@ -16,12 +16,15 @@ import java.util.List;
 public interface PermissionMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "department", ignore = true)
     Permission toEntity(PermissionReq req);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "department", ignore = true)
     void updatePermissionFromReq(PermissionReq req, @MappingTarget Permission permission);
 
+    @Mapping(target = "departmentId", source = "department.id")
     PermissionRes toDto(Permission permission);
 
     List<PermissionRes> toDtoList(List<Permission> permissions);

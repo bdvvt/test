@@ -3,9 +3,11 @@ package com.example.test.models.services.impl;
 import com.example.test.exceptions.NotFoundException;
 import com.example.test.models.dto.req.PermissionReq;
 import com.example.test.models.dto.res.PermissionRes;
+import com.example.test.models.entities.Department;
 import com.example.test.models.entities.Permission;
 import com.example.test.models.entities.Role;
 import com.example.test.models.mappers.PermissionMapper;
+import com.example.test.models.repositories.IDepartmentRepository;
 import com.example.test.models.repositories.IPermissionRepository;
 import com.example.test.models.repositories.IRoleRepository;
 import com.example.test.models.services.IPermissionService;
@@ -23,6 +25,7 @@ public class PermissionServiceImpl implements IPermissionService {
     private final IPermissionRepository permissionRepository;
     private final IRoleRepository roleRepository;
     private final PermissionMapper permissionMapper;
+    private final IDepartmentRepository departmentRepository;
 
     @Override
     public PermissionRes createPermission(PermissionReq req) {
@@ -31,12 +34,13 @@ public class PermissionServiceImpl implements IPermissionService {
             formattedPermissionName = formattedPermissionName.trim().toUpperCase();
 
         }
-        if (permissionRepository.existsByName(formattedPermissionName)) {
+        if (permissionRepository.existsByNameAndDepartmentId(formattedPermissionName, req.getDepartmentId())) {
             throw new RuntimeException("Permission đã tồn tại");
         }
         log.info("Creating new permission entity to database for permission name: {}", formattedPermissionName);
         Permission permission = permissionMapper.toEntity(req);
         permission.setName(formattedPermissionName);
+        permission.setDepartment(findDepartment(req.getDepartmentId()));
         return permissionMapper.toDto(permissionRepository.save(permission));
     }
 
@@ -62,6 +66,13 @@ public class PermissionServiceImpl implements IPermissionService {
             String formattedPermissionName = updatePermission.getName().trim().toUpperCase();
             updatePermission.setName(formattedPermissionName);
         }
+        updatePermission.setDepartment(findDepartment(req.getDepartmentId()));
         return permissionMapper.toDto(permissionRepository.save(updatePermission));
+    }
+
+    private Department findDepartment(Long departmentId) {
+        if (departmentId == null) return null;
+        return departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy department với ID: " + departmentId));
     }
 }
