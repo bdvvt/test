@@ -41,9 +41,7 @@ public class AuditActionAspect {
         User user = currentUserOrNull();
         String action = toAction(method.getName());
         String endpoint = request == null ? "UNKNOWN" : request.getRequestURI();
-        String description = buildDescription(action, endpoint, joinPoint.getArgs());
-
-        logService.recordAudit(action, httpMethod, endpoint, description, user);
+        logService.recordAudit(action, httpMethod, endpoint, user);
         return result;
     }
 
@@ -57,15 +55,6 @@ public class AuditActionAspect {
 
     private String toAction(String methodName) {
         return methodName.replaceAll("([a-z])([A-Z])", "$1_$2").toUpperCase();
-    }
-
-    private String buildDescription(String action, String endpoint, Object[] args) {
-        for (Object arg : args) {
-            if (arg instanceof UserReq userReq && userReq.getFullName() != null) {
-                return action + " - " + userReq.getFullName();
-            }
-        }
-        return action + " via " + endpoint;
     }
 
     private HttpServletRequest currentRequest() {

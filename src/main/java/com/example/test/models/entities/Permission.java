@@ -21,7 +21,7 @@ public class Permission {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "permission_departments",
             joinColumns = @JoinColumn(name = "permission_id"),

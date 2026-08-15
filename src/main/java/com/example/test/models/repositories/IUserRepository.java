@@ -30,14 +30,4 @@ public interface IUserRepository extends JpaRepository<User,Long> {
     @Query("SELECT u FROM User u WHERE u.email = :identifier OR u.username = :identifier")
     Optional<User> findByEmailOrUsername(@Param("identifier") String identifier);
 
-    @Query("""
-        SELECT CASE WHEN COUNT(d) > 0 THEN true ELSE false END
-        FROM Department d
-        JOIN d.managers m
-        JOIN d.users u
-        WHERE m.id = :managerId AND u.id = :userId
-    """)
-    boolean isManagerOfUserDepartment(@Param("managerId") Long managerId, @Param("userId") Long userId);
-
-    boolean existsByDepartmentIdAndRolesRoleNameAndIdNot(Long deptId, String roleName, Long userId);
 }

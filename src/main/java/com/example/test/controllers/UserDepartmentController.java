@@ -67,7 +67,7 @@ public class UserDepartmentController {
     }
 
     @PutMapping("/{id}/department/{deptId}/roles")
-    @PreAuthorize("@userDepartmentPermissionChecker.canUpdate(authentication, #deptId)")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN_SYSTEM','ROLE_ADMIN')")
     public ResponseEntity<?> updateUser(@AuthenticationPrincipal CustomUserDetails currentUser,
                                         @PathVariable Long id,
                                         @PathVariable Long deptId,

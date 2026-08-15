@@ -19,21 +19,20 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 @Entity
-@Table(name = "application_logs")
+@Table(name = "logs")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ApplicationLog {
+public class Log {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-        @Column(length = 30)
+    @Column(length = 30)
     private String level;
-    @Column(columnDefinition = "TEXT")
-    private String message;
+
     @Column(length = 150)
     private String service;
 
@@ -46,9 +45,6 @@ public class ApplicationLog {
     @Column(nullable = false, length = 255)
     private String endpoint;
 
-    @Column(columnDefinition = "TEXT")
-    private String description;
-
     @Column(name = "user_id")
     private Long userId;
 
@@ -57,11 +53,6 @@ public class ApplicationLog {
 
     @Column(name = "department_id")
     private Long departmentId;
-
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private Map<String, Object> metadata;
 
     @Column(nullable = false)
     private LocalDateTime timestamp;

@@ -11,10 +11,7 @@ import org.springframework.stereotype.Component;
 public class UserDepartmentPermissionChecker {
     private final IUserDepartmentRoleRepository userDepartmentRoleRepository;
 
-    public boolean hasPermission(
-            Authentication authentication,
-            Long departmentId,
-            String permissionName
+    public boolean hasPermission(Authentication authentication,Long departmentId,String permissionName
     ) {
         if (authentication == null
                 || !(authentication.getPrincipal() instanceof CustomUserDetails details)) {
@@ -43,14 +40,44 @@ public class UserDepartmentPermissionChecker {
     }
 
     public boolean canCreate(Authentication authentication, Long departmentId) {
-        return hasPermission(authentication, departmentId, "USER_DEPARTMENT_CREATE");
+        if (authentication == null
+                || !(authentication.getPrincipal() instanceof CustomUserDetails details)) {
+            return false;
+        }
+
+        Long userDepartmentId = details.getUser().getDepartment() == null
+                ? null
+                : details.getUser().getDepartment().getId();
+
+        return departmentId.equals(userDepartmentId)
+                || hasPermission(authentication, departmentId, "USER_DEPARTMENT_CREATE");
     }
 
     public boolean canUpdate(Authentication authentication, Long departmentId) {
-        return hasPermission(authentication, departmentId, "USER_DEPARTMENT_UPDATE");
+        if (authentication == null
+                || !(authentication.getPrincipal() instanceof CustomUserDetails details)) {
+            return false;
+        }
+
+        Long userDepartmentId = details.getUser().getDepartment() == null
+                ? null
+                : details.getUser().getDepartment().getId();
+
+        return departmentId.equals(userDepartmentId)
+                || hasPermission(authentication, departmentId, "USER_DEPARTMENT_UPDATE");
     }
 
     public boolean canDelete(Authentication authentication, Long departmentId) {
-        return hasPermission(authentication, departmentId, "USER_DEPARTMENT_DELETE");
+        if (authentication == null
+                || !(authentication.getPrincipal() instanceof CustomUserDetails details)) {
+            return false;
+        }
+
+        Long userDepartmentId = details.getUser().getDepartment() == null
+                ? null
+                : details.getUser().getDepartment().getId();
+
+        return departmentId.equals(userDepartmentId)
+                || hasPermission(authentication, departmentId, "USER_DEPARTMENT_DELETE");
     }
 }

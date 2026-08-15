@@ -53,31 +53,22 @@ public class UserDepartmnetServiceImpl implements IUserDepartmentService {
 
     @Override
     @Transactional
-    public UserRes updateUserRoleInDept(
-            Long id,
-            Long orgId,
-            Long deptId,
-            UpdateRoleUser req
-    ) {
+    public UserRes updateUserRoleInDept(Long id,Long orgId,Long deptId,UpdateRoleUser req) {
         User user = userRepository.findByIdAndOrganizationId(id, orgId)
                 .orElseThrow(() -> new NotFoundException("User không thuộc organization"));
         Department department = departmentRepository.findByIdAndOrganizationId(deptId, orgId)
                 .orElseThrow(() -> new NotFoundException("Department không tồn tại"));
         List<Role> roles = roleRepository.findAllByIdIn(req.getRoles());
-
         if (roles.size() != req.getRoles().size()) {
             throw new NotFoundException("Role không tồn tại");
         }
-
         boolean hasDepartmentScopedPermission = roles.stream()
                 .flatMap(role -> role.getPermissions().stream())
                 .flatMap(permission -> permission.getDepartments().stream())
                 .anyMatch(permissionDepartment -> deptId.equals(permissionDepartment.getId()));
-
         if (!hasDepartmentScopedPermission) {
-            throw new NotFoundException("Role chưa được scope cho department " + deptId);
+            throw new NotFoundException("không tìm thấy department " + deptId);
         }
-
         userDepartmentRoleRepository.deleteAllByUserIdAndDepartmentId(id, deptId);
         userDepartmentRoleRepository.saveAll(
                 roles.stream()
@@ -88,7 +79,6 @@ public class UserDepartmnetServiceImpl implements IUserDepartmentService {
                                 .build())
                         .toList()
         );
-
         return userMapper.toDto(user);
     }
 
@@ -99,7 +89,6 @@ public class UserDepartmnetServiceImpl implements IUserDepartmentService {
                 .orElseThrow(() -> new NotFoundException("User không thuộc organization"));
         departmentRepository.findByIdAndOrganizationId(deptId, orgId)
                 .orElseThrow(() -> new NotFoundException("Department không tồn tại"));
-
         int deleted = userDepartmentRoleRepository
                 .deleteByUserIdAndDepartmentIdAndRoleId(id, deptId, roleId);
         if (deleted == 0) {

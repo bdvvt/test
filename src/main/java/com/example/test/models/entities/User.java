@@ -70,8 +70,4 @@ public class User {
 
     @Column(name = "otp_expiration")
     private LocalDateTime otpExpiration;
-
-    @ManyToMany(mappedBy = "managers")
-    @JsonIgnore
-    private List<Department> managedDepartments;
 }

@@ -14,15 +14,12 @@ import java.util.Map;
 @AllArgsConstructor
 public class AuditLogData {
     private String level;
-    private String message;
     private String service;
     private String action;
     private String method;
     private String endpoint;
-    private String description;
     private Long userId;
     private Long organizationId;
     private Long departmentId;
-    private Map<String, Object> metadata;
     private LocalDateTime timestamp;
 }
