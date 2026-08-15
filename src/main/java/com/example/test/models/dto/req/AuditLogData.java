@@ -13,8 +13,6 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuditLogData {
-    private String level;
-    private String service;
     private String action;
     private String method;
     private String endpoint;

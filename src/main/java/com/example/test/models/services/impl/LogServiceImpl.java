@@ -21,8 +21,6 @@ public class LogServiceImpl implements ILogService {
     @Override
     public void recordAudit(String action, String method, String endpoint, User user) {
         AuditLogData data = AuditLogData.builder()
-                .level("INFO")
-                .service("API")
                 .action(action)
                 .method(method)
                 .endpoint(endpoint)

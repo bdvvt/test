@@ -10,7 +10,7 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {RoleMapper.class, DepartmentMapper.class, })
+@Mapper(componentModel = "spring", uses = {RoleMapper.class })
 public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "roles", ignore = true)

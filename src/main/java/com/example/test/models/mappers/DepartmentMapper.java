@@ -17,11 +17,13 @@ public interface DepartmentMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "users", ignore = true)
     @Mapping(target = "organization", ignore = true)
+    @Mapping(target = "permissions", ignore = true)
     Department toEntity(DepartmentReq req);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "users", ignore = true)
     @Mapping(target = "organization", ignore = true)
+    @Mapping(target = "permissions", ignore = true)
     void updateDepartmentFromReq(DepartmentReq req, @MappingTarget Department department);
 
     DepartmentRes toDto(Department department);

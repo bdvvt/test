@@ -30,12 +30,6 @@ public class Log {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 30)
-    private String level;
-
-    @Column(length = 150)
-    private String service;
-
     @Column(nullable = false, length = 100)
     private String action;
 

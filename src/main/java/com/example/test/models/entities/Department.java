@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.DoubleStream;
 
 @Entity
@@ -35,5 +36,6 @@ public class Department {
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
-
+    @ManyToMany(mappedBy = "departments")
+    private List<Permission> permissions;
 }

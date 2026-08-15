@@ -10,5 +10,5 @@ import java.util.Set;
 public class PermissionRes {
     private Long id;
     private String name;
-    private Set<Long> departmentIds;
+    private Set<DepartmentRes> departments;
 }
