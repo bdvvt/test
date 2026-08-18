@@ -1,11 +1,8 @@
 package com.example.test.models.mappers;
 
-import com.example.test.models.dto.req.AddManagerReq;
 import com.example.test.models.dto.req.DepartmentReq;
 import com.example.test.models.dto.res.DepartmentRes;
-import com.example.test.models.dto.res.ManagerRes;
 import com.example.test.models.entities.Department;
-import com.example.test.models.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

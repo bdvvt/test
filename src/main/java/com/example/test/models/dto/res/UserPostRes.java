@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostRes {
+public class UserPostRes {
     private Long id;
-    private String title;
-    private String content;
-    private UserPostRes user;
+    private String fullName;
+    private DepartmentRes department;
+    private OrganizationRes organization;
 }

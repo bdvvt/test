@@ -1,12 +1,10 @@
 package com.example.test.controllers;
 
 import com.example.test.models.dto.req.ActiveUserReq;
-import com.example.test.models.dto.req.BlockReq;
 import com.example.test.models.dto.req.LoginReq;
 import com.example.test.models.dto.req.RegisterReq;
 import com.example.test.models.dto.wrapper.ApiResponse;
 import com.example.test.models.services.IAuthService;
-import com.example.test.models.services.IUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

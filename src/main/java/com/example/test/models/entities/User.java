@@ -70,4 +70,7 @@ public class User {
 
     @Column(name = "otp_expiration")
     private LocalDateTime otpExpiration;
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
 }

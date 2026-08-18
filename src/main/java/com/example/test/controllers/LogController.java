@@ -18,7 +18,6 @@ public class LogController {
 
     @GetMapping
     public ResponseEntity<?> findAll() {
-        log.info("Fetching all organizations");
         return ResponseEntity.ok(
                 ApiResponse.builder()
                         .message("Get Organization Successfully")

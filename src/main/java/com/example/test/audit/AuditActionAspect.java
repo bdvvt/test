@@ -31,7 +31,7 @@ public class AuditActionAspect {
         }
 
         Object result = joinPoint.proceed();
-        User user = currentUserOrNull();
+        User user = currentUser();
         String action = toAction(joinPoint.getSignature().getName());
         String endpoint = request.getRequestURI();
         logService.recordAudit(action, httpMethod, endpoint, user);
@@ -50,12 +50,11 @@ public class AuditActionAspect {
     }
 
     private HttpServletRequest currentRequest() {
-        ServletRequestAttributes attributes =
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return attributes == null ? null : attributes.getRequest();
     }
 
-    private User currentUserOrNull() {
+    private User currentUser() {
         try {
             return securityUtils.getCurrentUser();
         } catch (RuntimeException ignored) {

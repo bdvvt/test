@@ -1,9 +1,7 @@
 package com.example.test.models.services;
 
-import com.example.test.models.dto.req.AddManagerReq;
 import com.example.test.models.dto.req.DepartmentReq;
 import com.example.test.models.dto.res.DepartmentRes;
-import com.example.test.models.dto.res.ManagerRes;
 
 import java.util.List;
 

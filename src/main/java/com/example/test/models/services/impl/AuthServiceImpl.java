@@ -3,10 +3,8 @@ package com.example.test.models.services.impl;
 import com.example.test.exceptions.AuthException;
 import com.example.test.exceptions.NotFoundException;
 import com.example.test.models.dto.req.ActiveUserReq;
-import com.example.test.models.dto.req.BlockReq;
 import com.example.test.models.dto.req.LoginReq;
 import com.example.test.models.dto.req.RegisterReq;
-import com.example.test.models.dto.res.BlockRes;
 import com.example.test.models.dto.res.LoginRes;
 import com.example.test.models.entities.Role;
 import com.example.test.models.entities.User;
@@ -31,7 +29,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -94,7 +91,6 @@ public class AuthServiceImpl implements IAuthService {
 
 
     }
-
 
     @Override
     public String activeUser(ActiveUserReq req) {
