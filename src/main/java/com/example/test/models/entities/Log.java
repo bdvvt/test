@@ -13,10 +13,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Map;
-
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "logs")
@@ -29,6 +25,15 @@ public class Log {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(length = 30)
+    private String level;
+
+    @Column(columnDefinition = "TEXT")
+    private String message;
+
+    @Column(length = 150)
+    private String service;
 
     @Column(nullable = false, length = 100)
     private String action;

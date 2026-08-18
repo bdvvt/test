@@ -30,19 +30,49 @@ public class AuditActionAspect {
             return joinPoint.proceed();
         }
 
-        Object result = joinPoint.proceed();
-        User user = currentUser();
         String action = toAction(joinPoint.getSignature().getName());
-        String endpoint = request.getRequestURI();
-        logService.recordAudit(action, httpMethod, endpoint, user);
-        return result;
+        String endpoint = request == null ? "UNKNOWN" : request.getRequestURI();
+        User user = currentUser();
+
+        try {
+            Object result = joinPoint.proceed();
+            recordSuccessSafely(action, httpMethod, endpoint, user);
+            return result;
+        } catch (Throwable exception) {
+            recordErrorSafely(action, httpMethod, endpoint, exception, user);
+            throw exception;
+        }
     }
 
-    private boolean isAuditableMethod(String httpMethod) {
-        return "POST".equals(httpMethod)
-                || "PUT".equals(httpMethod)
-                || "PATCH".equals(httpMethod)
-                || "DELETE".equals(httpMethod);
+    private void recordSuccessSafely(String action, String method, String endpoint, User user) {
+        try {
+            logService.recordAudit(action, method, endpoint, user);
+        } catch (RuntimeException loggingException) {
+            log.error("Không thể lưu audit log thành công cho {} {}", method, endpoint,
+                    loggingException);
+        }
+    }
+
+    private void recordErrorSafely(
+            String action,
+            String method,
+            String endpoint,
+            Throwable exception,
+            User user
+    ) {
+        try {
+            logService.recordError(action, method, endpoint, exception, user);
+        } catch (RuntimeException loggingException) {
+            log.error("Không thể lưu audit error log cho {} {}", method, endpoint,
+                    loggingException);
+        }
+    }
+
+    private boolean isAuditableMethod(String method) {
+        return "POST".equals(method)
+                || "PUT".equals(method)
+                || "PATCH".equals(method)
+                || "DELETE".equals(method);
     }
 
     private String toAction(String methodName) {
@@ -50,7 +80,8 @@ public class AuditActionAspect {
     }
 
     private HttpServletRequest currentRequest() {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes =
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return attributes == null ? null : attributes.getRequest();
     }
 

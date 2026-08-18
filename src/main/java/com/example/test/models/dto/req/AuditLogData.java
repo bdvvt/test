@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuditLogData {
+    private String level;
+    private String message;
+    private String service;
     private String action;
     private String method;
     private String endpoint;
